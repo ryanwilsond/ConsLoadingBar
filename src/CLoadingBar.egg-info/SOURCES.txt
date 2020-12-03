@@ -1,0 +1,10 @@
+MANIFEST.in
+MoreDocumentation.md
+README.md
+loadingbar.py
+setup.py
+src/CLoadingBar.egg-info/PKG-INFO
+src/CLoadingBar.egg-info/SOURCES.txt
+src/CLoadingBar.egg-info/dependency_links.txt
+src/CLoadingBar.egg-info/requires.txt
+src/CLoadingBar.egg-info/top_level.txt
