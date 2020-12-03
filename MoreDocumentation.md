@@ -2,9 +2,12 @@
 
 ## Creator: FlameChain
 
-Github Link: [flamechain/Modules/](https://github.com/flamechain/Modules)
+Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.4/)
 
-### Version: 1.2.2
+> Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
+
+### Version: 1.2.4
 
 Description: Extra documentation with larger and more specific examples. This mainly goes over how the [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks) method words, and how you can make it from scratch.
 
@@ -221,25 +224,9 @@ for i in range(len(tasks)):
 return tasks
 ```
 
-## 2.4 Print Statements
+## 2.4 useETACalculation Param
 
-The only other thing in the [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks) class that wasn't included was the print statements. It starts by using the [start()](#25-start) method. The reason this is a method is because the '/' character next to the 'Loading Tasks' rotates in a circle. The code for this can be seen [here](#25-start).
-
-```txt
-Loading Tasks /
-```
-
-```txt
-Running Tasks...
-        |███████████████     |  79%  [eta=00:07.07] [tasks=4/5]
-```
-
-The end just calls the [end()](#26-end) method, which as explained in the main documentation, is just a progress bar with all values maxed out.
-
-```txt
-Finshed
-        |████████████████████| 100%  [tasks=5/5]
-```
+This is enabled when threading with real tasks. It uses prior data to estimate how long the rest will take. Not always accurate. This is by default turned off, but is turned on in [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks).
 
 ## 2.5 start()
 
@@ -300,4 +287,4 @@ This method has the color integration as mentioned [here](./README.md#1510-useco
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.2 - Release 8</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.4 - PyPi Release 3</sub>

@@ -1,8 +1,8 @@
-# Version 1.2.2
+# Version 1.2.4
 import time, random, concurrent.futures, threading, termcolor
 
 class Bar:
-    def __init__(self, barLength=20, estimatedTotalTime=0, taskCount=None, mainBarChar='█', progressPointBarChar='█', endPointChars=['|', '|'], title='Running Tasks...', useColor=False):
+    def __init__(self, barLength=20, useETACalculation=False, taskCount=None, mainBarChar='█', progressPointBarChar='█', endPointChars=['|', '|'], title='Running Tasks...', useColor=False):
         '''
         ### Description
 
@@ -13,7 +13,7 @@ class Bar:
         | Name | Optional | Description |
         |-|:-:|-|
         | barLength | True | Length of bar in characters. |
-        | estimatedTotalTime | True | Way to change the average time taken, in seconds. |
+        | useETACalculation | True | Boolean if you want the program to automatically sleep. |
         | taskCount | True | Amount of tasks to get done, just for visualization. |
         | mainBarChar | True | The character that the bar is made of. Default = █, but # is also common. |
         | progressPointBarChar | True | Head of the bar, usally same as barChar or >. |
@@ -21,11 +21,11 @@ class Bar:
         | title | True | Title that shows up for the progress bar. Actaully gets prinited using the start() method. |
         | useColor | True | Color mode on or off, default to off. |
 
-        Github Link: https://github.com/flamechain/Modules
+        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         try:
             self.barLength = int(barLength)
-            self.estimatedTotalTime = float(estimatedTotalTime / 10)
             if taskCount != None:
                 self.taskCount = int(taskCount)
             else:
@@ -33,6 +33,7 @@ class Bar:
             self.title = str(title)
             self.total = 100
             self.percChar = '%'
+            self.useETACalculation = bool(useETACalculation)
             
             if useColor:
                 self.green = 'green'
@@ -65,7 +66,8 @@ class Bar:
         | stop | True | Call this to stop itself. |
         | title | True | The title that is used while this is running. |
 
-        Github Link: https://github.com/flamechain/Modules
+        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         percsyms = ['|', '/', '-', '\\']
 
@@ -99,7 +101,8 @@ class Bar:
         | tasksDone | True | Amount of tasks done, just for visualization. |
         | pastBar | True | Used if you don't have threading, but want a nice animation to get to current percent. |
 
-        Github Link: https://github.com/flamechain/Modules
+        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         # Generates Bar Format
         percent = float(current) * 100 / self.total
@@ -160,10 +163,11 @@ class Bar:
                 eta_ = int(eta_) - 1
                 eta2_ = float(eta2_) + 60
 
-            if (eta2_ == 0) | (self.total-current == 0):
-                time.sleep(0.01)
-            else:
-                time.sleep((float(eta2_)/(self.total-current)))
+            if self.useETACalculation: # Used if enabled
+                if (eta2_ == 0) | (self.total-current == 0):
+                    time.sleep(0.01)
+                else:
+                    time.sleep((float(eta2_)/(self.total-current)))
 
     def end(self, tasks=None, title='Finished'):
         '''
@@ -178,7 +182,8 @@ class Bar:
         | tasks | True | Optional param if you want to use external tasks. |
         | title | True | Title that prints when the progress bar is done. |
 
-        Github Link: https://github.com/flamechain/Modules
+        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         bar  = self.mainBarChar * self.barLength
 
@@ -212,7 +217,8 @@ class SimulateTasks:
         | barLength | True | Length of the bar in characters. |
         | *args | True | If you want to use external task values for unit testing. |
 
-        Github Link: https://github.com/flamechain/Modules
+        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         self.barLength = barLength
         self.estimatedTotalTime = estimatedTotalTime
@@ -251,7 +257,7 @@ class SimulateTasks:
                 stop_threads = True
 
         start_time = time.time()
-        lb = Bar(self.barLength, taskCount=len(tasks))
+        lb = Bar(self.barLength, taskCount=len(tasks), useETACalculation=True, useColor=True)
         current = 0
 
         def runprogress(perc, done, stop):

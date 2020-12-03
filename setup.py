@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="ConsLoadingBar",
-    version="1.2.3",
+    version="1.2.4",
     author="flamechain",
     author_email="rwc@thezulus.com",
     description="Easy to make progress bars",
@@ -19,9 +19,9 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    # install_requires = [
-    #   "termcolor >= 1.1.0",
-    # ],
+    install_requires = [
+        "termcolor >= 1.1.0",
+    ],
 )
 
 # delete files from dist
@@ -30,4 +30,4 @@ setup(
 # run: twine upload dist/*
 # push to git
 
-# https://pypi.org/project/ConsLoadingBar/1.2.3/
+# https://pypi.org/project/ConsLoadingBar/1.2.4/

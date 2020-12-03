@@ -2,10 +2,12 @@
 
 ## Creator: FlameChain
 
-Github Link: [flamechain/Modules/](https://github.com/flamechain/Modules)
-PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.2/)
+Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.4/)
 
-### Version: 1.2.2
+> Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
+
+### Version: 1.2.4
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
@@ -17,6 +19,8 @@ ___
 - [1.1 Contents](#11-contents)
 - [1.2 New Changes](#12-new-changes)
 - [1.3 Installation](#13-installation)
+  - [1.3.1 PiP (Suggested)](#131-pip)
+  - [1.3.2 Manual Install (Not Suggested)](#132-manual-install-not-suggested)
 - [1.4 Quick Start Guide](#14-quick-start-guide)
   - [1.4.1 Initilizing an instance of Bar()](#141-initilizing-an-instance-of-bar)
   - [1.4.2 Using the progress() method](#142-using-the-progress-method)
@@ -27,7 +31,7 @@ ___
   - [1.5.1 Parameters](#151-parameters)
   - [1.5.2 Description](#152-description)
   - [1.5.3 BarLength](#153-barlength)
-  - [1.5.4 EstimatedTotalTime](#154-estimatedtotaltime)
+  - [1.5.4 UseETACalculation](#154-useetacalculation)
   - [1.5.5 TaskCount](#155-taskcount)
   - [1.5.6 MainBarChar](#156-mainbarchar)
   - [1.5.7 ProgressPointBarChar](#157-progresspointbarchar)
@@ -55,6 +59,8 @@ ___
 
 ## 1.2 New Changes
 
+- [New Param, Replaced old one](#154-useetacalculation)
+- Added Module to PyPi/PiP so manually installing the file is no longer necessary!
 - [New Quick Start Guide](#14-quick-start-guide)
 - [Renamed all params](#151-parameters)
 - [Color](#1510-useColor)
@@ -66,15 +72,31 @@ ___
 
 ## 1.3 Installation
 
-Install via pip using this command:
+### 1.3.1 PiP
+
+Install via pip using this command. Note that these commands use the $ symbol to signify the bash terminal. Don't add these in your command.
 
 ```bash
-pip install consloadingbar
+$ pip install ConsLoadingBar
 ```
+
+You can also use '==' to specify the version. This would only be used to downgrade.
+
+```bash
+$ pip install ConsLoadingBar==1.2.2
+```
+
+To make sure you have the current version you can use this command instead:
+
+```bash
+$ pip install --upgrade ConsLoadingBar
+```
+
+### 1.3.2 Manual Install (NOT SUGGESTED)
 
 If you want to download the file directly follow these steps:
 
-1. Download the file here [here](https://github.com/flamechain/Modules/releases/tag/v1.2.2).
+1. Download the file here python file named [consloadingbar.py here](https://github.com/flamechain/ConsLoadingBar). Make sure you only download the python file, as everything else is for the PiP package.
 1. Open the zip and copy the python file
 1. Move the file into your python directory by going to AppData\Local\Programs\Python\
 
@@ -204,7 +226,7 @@ lb.end()
 | Param Name | Description | Type | Default |
 |-|-|:-:|-|
 | barLength | The __length, in characters__, that the bar progress bar expands. This only includes the moving part of the bar. | integer | 20
-| estimatedTotalTime | Used with the [SimulateTasks()](#17-consloadingbarsimulatetasks) class, and changes overall delay on the visual. Not exact, only average. Based on seconds. | float | 10
+| useETACalculation | Used with the [SimulateTasks()](#17-consloadingbarsimulatetasks) class, and changes overall delay on the visual based on prior delay. Used when threading. | boolean | False |
 | taskCount | The __total amount of tasks__ used. If not specified there will be not tasks indicator with the bar. | integer | None
 | mainBarChar | Used for the moving bar. Often '#' is used. | string | '█'
 | progressPointBarChar | Used for the front character of the bar. Often '>' is used. | string | '█'
@@ -230,21 +252,9 @@ The length if the moving status bar indicator. In this example its set to 20 usi
 |████████████████████|
 ```
 
-### 1.5.4 estimatedTotalTime
+### 1.5.4 useETACalculation
 
-This is not the eta that shows up on the bar during runtime, but rather an estimated time it will take to complete the bar. Only valid if its for demo purposes and no tasks running.
-
-Rather for future there might be a eta param to toggle the eta status next to the bar. Here is 2 examples of the bar, using the same code:
-
-```txt
-|                    |   0%  [eta=00:00.00]
-```
-
-```txt
-|████████████████████| 100%
-```
-
-In the top example the tasks haven't started so an eta can't be calculated. In the bottom example its complete, so the eta box doesn't show up on the screen.
+When enabled this will estimate how long it will take, based on how long prior tasks took. Sometimes not accurate. Read more about using this [here](https://github.com/flamechain/Modules/blob/main/MoreDocumentation.md).
 
 ### 1.5.5 taskCount
 
@@ -424,9 +434,8 @@ ___
 
 | Param Name | Description | Optional | Default |
 |-|-|:-:|-|
-| eta | Changes overall delay on the visual. Not exact, only average. Based on seconds | True | 15
-| total | .Where you put the total percent or other unit that the loading bar reaches at the end. | True | 100
-| barLength | The length, in characters, that the bar progress bar expands. This only includes the moving part of the bar. | True | 20
+| eta | Changes overall delay on the visual. Not exact, only average. Based on seconds | True | 15 |
+| barLength | The length, in characters, that the bar progress bar expands. This only includes the moving part of the bar. | True | 20 |
 
 All parameters have been explained above in the [Bar()](#15-consloadingbarbar) parameters section. These values go directly into that class.
 
@@ -522,6 +531,7 @@ ___
 | Version | Bug ID | Description | Status | Fix Date |
 |-|-|-|:-:|:-:|
 | 1.2.0 | 003 | pastBar sometimes has random prints. | Not Fixed |   |
+| 1.2.2 | 004 | SimulateTasks() runs when using import. | Fixed | 12/02/20 |
 | 1.1.8 | 002 | pastBar would freeze program | Fixed | 12/02/20 |
 | 1.1.6 | 001 | time_ param in progress() method froze program if over 100 | Fixed | 12/01/20 |
 
@@ -545,6 +555,8 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
+| 1.2.4 | Tweaks to documentation for more clarity. | 12/02/20 |
+| 1.2.3 | Converted module to offical PyPi / PiP package. | 12/02/20 |
 | 1.2.2 | Minor tweaks to eta calculation, fixed documentation mistakes. | 12/02/20 |
 | 1.2.1 | Added [Quick Start Guide](#14-quick-start-guide) to documentation, revised doc-strings in consloadingbar.py | 12/02/20 |
 | 1.2.0 | Changed all param names to be more clear, and removed some useless ones. Overall easier to use. | 12/02/20 |
@@ -578,4 +590,4 @@ ___
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.2 - Release 8</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.4 - PyPi Release 3</sub>
