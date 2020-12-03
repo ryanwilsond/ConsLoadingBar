@@ -29,3 +29,5 @@ setup(
 # run: python3 setup.py sdist bdist_wheel
 # run: twine upload dist/*
 # push to git
+
+# https://pypi.org/project/ConsLoadingBar/1.2.3/
