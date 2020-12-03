@@ -3,11 +3,11 @@
 ## Creator: FlameChain
 
 Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
-PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.5/)
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.6/)
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 1.2.5
+### Version: 1.2.6
 
 Description: Extra documentation with larger and more specific examples. This mainly goes over how the [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks) method words, and how you can make it from scratch.
 
@@ -226,7 +226,11 @@ return tasks
 
 ## 2.4 useETACalculation Param
 
-This is enabled when threading with real tasks. It uses prior data to estimate how long the rest will take. Not always accurate. This is by default turned off, but is turned on in [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks).
+This is enabled when threading with real tasks. It uses prior data to estimate how long the rest will take. Not always accurate. This is by default turned off, but is turned on in [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks). It just enables this code in the main class:
+
+```python
+time.sleep((float(eta) / (100-current)))
+```
 
 ## 2.5 start()
 
@@ -287,4 +291,4 @@ This method has the color integration as mentioned [here](./README.md#1510-useco
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.5 - PyPi Release 3</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.6 - PyPi Release 4</sub>

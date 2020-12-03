@@ -1,4 +1,4 @@
-# Version 1.2.4
+# v1.2.6
 import time, random, concurrent.futures, threading, termcolor
 
 class Bar:

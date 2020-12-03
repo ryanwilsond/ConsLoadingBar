@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setup(
     name="ConsLoadingBar",
-    version="1.2.5",
+    version="1.2.6",
     author="flamechain",
     author_email="rwc@thezulus.com",
     description="Easy to make progress bars",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/flamechain/ConsLoadingBar",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -30,6 +30,4 @@ setup(
 # run: twine upload dist/*
 # push to git
 
-# https://pypi.org/project/ConsLoadingBar/1.2.5/
-
-# pypi-AgEIcHlwaS5vcmcCJGIxYTE4ZDFjLTk5NTUtNDMyYi1hMTFlLWY2NGQ2ZGI2NTViZAACP3sicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJjb25zbG9hZGluZ2JhciJdfSwgInZlcnNpb24iOiAxfQAABiDQHZpjrtiOsVFZlDr0JmjFLl8O33URpdOrs3RcXW6hLg
+# https://pypi.org/project/ConsLoadingBar/1.2.6/
