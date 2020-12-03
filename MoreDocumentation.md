@@ -3,11 +3,11 @@
 ## Creator: FlameChain
 
 Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
-PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.4/)
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.5/)
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 1.2.4
+### Version: 1.2.5
 
 Description: Extra documentation with larger and more specific examples. This mainly goes over how the [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks) method words, and how you can make it from scratch.
 
@@ -287,4 +287,4 @@ This method has the color integration as mentioned [here](./README.md#1510-useco
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.4 - PyPi Release 3</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.5 - PyPi Release 3</sub>

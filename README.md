@@ -3,11 +3,11 @@
 ## Creator: FlameChain
 
 Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
-PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.4/)
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.5/)
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 1.2.4
+### Version: 1.2.5
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
@@ -83,7 +83,7 @@ $ pip install ConsLoadingBar
 You can also use '==' to specify the version. This would only be used to downgrade.
 
 ```bash
-$ pip install ConsLoadingBar==1.2.2
+$ pip install ConsLoadingBar == 1.2.2
 ```
 
 To make sure you have the current version you can use this command instead:
@@ -555,6 +555,7 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
+| 1.2.5 | Setup tokens so updates are easier and more frequent. | 12/02/20 |
 | 1.2.4 | Tweaks to documentation for more clarity. | 12/02/20 |
 | 1.2.3 | Converted module to offical PyPi / PiP package. | 12/02/20 |
 | 1.2.2 | Minor tweaks to eta calculation, fixed documentation mistakes. | 12/02/20 |
@@ -590,4 +591,4 @@ ___
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.4 - PyPi Release 3</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.5 - PyPi Release 3</sub>
