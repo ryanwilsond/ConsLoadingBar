@@ -1,8 +1,8 @@
-# v1.2.6
+# v1.2.7
 import time, random, concurrent.futures, threading, termcolor
 
 class Bar:
-    def __init__(self, barLength=20, useETACalculation=False, taskCount=None, mainBarChar='█', progressPointBarChar='█', endPointChars=['|', '|'], title='Running Tasks...', useColor=False):
+    def __init__(self, barLength=20, useETACalculation=False, taskCount=None, mainBarChar='█', progressPointBarChar='█', endPointChars=['|', '|'], title='Running Tasks...\n', useColor=False):
         '''
         ### Description
 
@@ -21,7 +21,8 @@ class Bar:
         | title | True | Title that shows up for the progress bar. Actaully gets prinited using the start() method. |
         | useColor | True | Color mode on or off, default to off. |
 
-        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        PyPi Link: https://pypi.org/project/ConsLoadingBar
+
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         try:
@@ -53,40 +54,28 @@ class Bar:
             self.endPointChars = endPointChars
         else: return print('ValueError: Check endPointChars and try again.')
 
-    def start(self, stop=False, title='Loading Tasks'):
+    def start(self):
         '''
         ### Description
 
-        Made for threading while initilizing tasks. Not Required to use.
+        Shows bar with 0% completion.
 
-        ### Params
+        PyPi Link: https://pypi.org/project/ConsLoadingBar
 
-        | Name | Optional | Description |
-        |-|:-:|-|
-        | stop | True | Call this to stop itself. |
-        | title | True | The title that is used while this is running. |
-
-        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
-        percsyms = ['|', '/', '-', '\\']
+        if '\n' in self.title:
+            print(self.title, end='')
+            title = '\t'
+        else:
+            title = self.title + ' '
 
-        j = 0
-        while True: # Runs until stopped by stop()
-            if stop():
-                break
+        if self.taskCount == None:
+            print('%s%s%s%s   0%%' % (title, self.endPointChars[0], ' ' * self.barLength, self.endPointChars[1]), end='\r')
+        else:
+            print('%s%s%s%s   0%%  [tasks=0/%s]' % (title, self.endPointChars[0], ' ' * self.barLength, self.endPointChars[1], self.taskCount), end='\r')
 
-            print('%s %s' % (title, percsyms[j]), end='\r')
-
-            j += 1
-            if j == 4:
-                j = 1
-
-            time.sleep(0.2)
-        
-        print(self.title)
-
-    def progress(self, current, time_=None, tasksDone=0, pastBar=None):
+    def progressBar(self, current, time_=None, tasksDone=0, pastBar=None):
         '''
         ### Description
 
@@ -101,7 +90,8 @@ class Bar:
         | tasksDone | True | Amount of tasks done, just for visualization. |
         | pastBar | True | Used if you don't have threading, but want a nice animation to get to current percent. |
 
-        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        PyPi Link: https://pypi.org/project/ConsLoadingBar
+
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         # Generates Bar Format
@@ -124,6 +114,8 @@ class Bar:
                 et2 = et2 + '0'
             if len(eta) == 1:
                 eta = '0' + eta
+            if len(et3) == 1:
+                et3 = '0' + et3
 
             eta = ':'.join([str(et3), str(eta)])
             eta = '.'.join([str(eta), str(et2)])
@@ -131,12 +123,18 @@ class Bar:
         except:
             eta = '00:00.00'
 
+        useTitle = False
+        if '\n' not in self.title:
+            useTitle = True
+            title = self.title
+        else:
+            title = '\t'
         # pastBar fork
         if pastBar != None:
             temp1 = 1
             temp2 = pastBar
             while len(bar) > pastBar:
-                string_ = '\t%s%s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (self.endPointChars[0], self.mainBarChar * temp2, termcolor.colored(self.mainBarChar * temp1, self.green),
+                string_ = '%s%s%s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], self.mainBarChar * temp2, termcolor.colored(self.mainBarChar * temp1, self.green),
                 (spaces + (" " * (len(bar)-pastBar-1))), self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount)
                 print(string_, end='\r')
                 pastBar += 1
@@ -150,13 +148,13 @@ class Bar:
         # Prints all values it has
         else:
             if (time_ == None) & (self.taskCount == None):
-                print('\t%s%s%s%s %s%d%s' % (self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar), end='\r')
+                print('%s%s%s%s%s %s%d%s' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar), end='\r')
             elif (time_ == None) & (self.taskCount != None):
-                print('\t%s%s%s%s %s%d%s  [tasks=%s/%s]' % (self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, tasksDone, self.taskCount), end='\r')
+                print('%s%s%s%s%s %s%d%s  [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, tasksDone, self.taskCount), end='\r')
             elif (time != None) & (self.taskCount == None):
-                print('\t%s%s%s%s %s%d%s  [eta=%s]' % (self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta), end='\r')
+                print('%s%s%s%s%s %s%d%s  [eta=%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta), end='\r')
             elif (time != None) & (self.taskCount != None):
-                print('\t%s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount), end='\r')
+                print('%s %s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount), end='\r')
             eta_, eta2_ = eta.split(':')
 
             while int(eta_) != 0:
@@ -168,8 +166,62 @@ class Bar:
                     time.sleep(0.01)
                 else:
                     time.sleep((float(eta2_)/(self.total-current)))
+    
+    def progressCircle(self, stop=False, time_=None, title='Loading'):
+        '''
+        ### Description
 
-    def end(self, tasks=None, title='Finished'):
+        Shows a rotating circle progress thing.
+
+        ### Params
+
+        | Name | Optional | Description |
+        |-|:-:|-|
+        | time_ | True | If used runs until time runs out. |
+        | title | True | Prints what the bar should print |
+        | stop | True | Used with threading rather than waiting time. |
+
+        PyPi Link: https://pypi.org/project/ConsLoadingBar
+
+        Github Link: https://github.com/flamechain/ConsLoadingBar
+        '''
+        percsyms = ['|', '/', '-', '\\']
+
+        def func(title, percysyms, stop=False):  
+            j = 0
+            while True:
+                if stop():
+                    break
+
+                print('%s %s' % (title, percsyms[j]), end='\r')
+
+                j += 1
+                if j == 4:
+                    j = 1
+
+                time.sleep(0.2)
+
+        j = 0
+        if time_ != None:
+            stop_threads = False
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(func, lambda: stop_threads)
+                time.sleep(time_)
+                stop_threads = True
+        else:
+            while True: # Runs until stopped by stop()
+                if stop():
+                    break
+
+                print('%s %s' % (title, percsyms[j]), end='\r')
+
+                j += 1
+                if j == 4:
+                    j = 1
+
+                time.sleep(0.2)
+
+    def end(self, tasks=None, title='Finished\n'):
         '''
         ### Description
 
@@ -182,7 +234,8 @@ class Bar:
         | tasks | True | Optional param if you want to use external tasks. |
         | title | True | Title that prints when the progress bar is done. |
 
-        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        PyPi Link: https://pypi.org/project/ConsLoadingBar
+
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         bar  = self.mainBarChar * self.barLength
@@ -191,16 +244,24 @@ class Bar:
             total_tasks = self.taskCount
         else:
             total_tasks = tasks
-
-        print("\033[F" + termcolor.colored(title, self.green) + "\t\t\t\t\t\t\t\t")
+        
+        if '\n' in self.title:
+            title = title.split('\n')
+            title = ''.join(title)
+            print("\033[F" + termcolor.colored(title, self.green), end='\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\r')
+        else:
+            print(termcolor.colored(title, self.green), end='')
 
         # Puts in all values at max
+        temp = ' '
+        if '\n' in self.title:
+            temp = '\t'
         if total_tasks == None:
-            print(f'\t{self.endPointChars[0]}{bar}{self.endPointChars[1]}', end='')
-            print(termcolor.colored(' 100' + self.percChar, self.green))
+            print(f'{temp}{self.endPointChars[0]}{bar}{self.endPointChars[1]}', end='')
+            print(termcolor.colored(' 100' + self.percChar, self.green) + '\t\t')
         else:
-            print(f'\t{self.endPointChars[0]}{bar}{self.endPointChars[1]}', end='')
-            print(termcolor.colored(' 100' + self.percChar + f'  [tasks={total_tasks}/{total_tasks}]', self.green))
+            print(f'{temp}{self.endPointChars[0]}{bar}{self.endPointChars[1]}', end='')
+            print(termcolor.colored(' 100' + self.percChar + f'  [tasks={total_tasks}/{total_tasks}]', self.green) + '\t\t')
 
 class SimulateTasks:
     def __init__(self, estimatedTotalTime=15, barLength=20, *args):
@@ -217,7 +278,8 @@ class SimulateTasks:
         | barLength | True | Length of the bar in characters. |
         | *args | True | If you want to use external task values for unit testing. |
 
-        PyPi Link: https://pypi.org/project/ConsLoadingBar/1.2.4
+        PyPi Link: https://pypi.org/project/ConsLoadingBar
+
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         self.barLength = barLength
@@ -240,19 +302,15 @@ class SimulateTasks:
                 print(termcolor.colored(f'Warning: Your custom tasks did not reach the total ({total_} < {self.total})', 'red'))
                 print(termcolor.colored('The Program will continue but there may be errors.', 'red'), end='\n\n')
                 time.sleep(2)
-                stop_threads = False
                 lb = Bar(self.barLength)
-                with concurrent.futures.ThreadPoolExecutor() as executor:
-                    future = executor.submit(lb.start, lambda: stop_threads)
-                    time.sleep(1)
-                    stop_threads = True
+                lb.progressCircle(time_=2)
         else:
             stop_threads = False
             lb = Bar(self.barLength)
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(self.loadtasks)
                 if self.estimatedTotalTime > 5:
-                    future2 = executor.submit(lb.start, lambda: stop_threads)
+                    future2 = executor.submit(lb.progressCircle, lambda: stop_threads)
                 tasks = future.result()
                 stop_threads = True
 
@@ -269,16 +327,17 @@ class SimulateTasks:
                     i = random.randint(75, 90)
 
                 total_time = time.time() - start_time
-                lb.progress(i, total_time, done)
+                lb.progressBar(i, total_time, done)
                 i += 1
 
         # Creates inital speed for progress bar
+        lb.start()
         totaltime = time.time() - start_time
         total = 0
-        lb.progress(total, totaltime)
+        lb.progressBar(total, totaltime)
         time.sleep(0.005*self.estimatedTotalTime)
         totaltime = time.time() - start_time
-        lb.progress(total+1, totaltime)
+        lb.progressBar(total+1, totaltime)
 
         # Runs each task
         for i in range(len(tasks)):
@@ -340,3 +399,5 @@ class SimulateTasks:
             tasks[i] = round(tasks[i], 1)
 
         return tasks
+
+SimulateTasks()

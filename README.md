@@ -4,11 +4,13 @@
 
 Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
 
-PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.6/)
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.7)
+
+If this PyPi link doesn't work, you can try finding it on [pydigger](https://pydigger.com/pypi/ConsLoadingBar).
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 1.2.6
+### Version: 1.2.7
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
@@ -21,7 +23,6 @@ ___
 - [1.2 New Changes](#12-new-changes)
 - [1.3 Installation](#13-installation)
   - [1.3.1 PiP (Suggested)](#131-pip)
-  - [1.3.2 Manual Install (Not Suggested)](#132-manual-install-not-suggested)
 - [1.4 Quick Start Guide](#14-quick-start-guide)
   - [1.4.1 Initilizing an instance of Bar()](#141-initilizing-an-instance-of-bar)
   - [1.4.2 Using the progress() method](#142-using-the-progress-method)
@@ -40,9 +41,10 @@ ___
   - [1.5.9 Title](#159-title)
   - [1.5.10 UseColor](#1510-useColor)
 - [1.6 Using](#16-using)
-  - [1.6.1 Progress()](#161-progress)
+  - [1.6.1 ProgressBar()](#161-progressbar)
   - [1.6.2 Start()](#162-start)
   - [1.6.3 End()](#163-end)
+  - [1.6.4 ProgressCircle()](#164-progresscircle)
 - [1.7 ConsLoadingBar.SimulateTasks()](#17-consloadingbarsimulatetasks)
   - [1.7.1 Parameters (SimulateTasks)](#171-parameters-simulatetasks)
   - [1.7.2 Example](#172-example)
@@ -50,7 +52,7 @@ ___
   - [1.8.1 PastBar](#181-pastbar)
   - [1.8.2 *args](#182-simulatetasks-args)
 - [1.9 Known Issues](#19-known-issues)
-- [1.10 Future Big Updates](#110-future-big-updates)
+- [1.10 Future Big Updates](#110-future-updates)
 - [1.11 Version Log](#111-version-log)
   - [1.11.1 Modern Versions](#1111-modern-versions)
   - [1.11.2 Early Stage Version](#1112-early-stage-versions)
@@ -60,14 +62,12 @@ ___
 
 ## 1.2 New Changes
 
-- [New Param, Replaced old one](#154-useetacalculation)
+- [Added progressCircle() method!](#164-progressCircle())
+- [Re-did start() method](#162-start)
 - Added Module to PyPi/PiP so manually installing the file is no longer necessary!
 - [New Quick Start Guide](#14-quick-start-guide)
-- [Renamed all params](#151-parameters)
-- [Color](#1510-useColor)
-- [Bug fixes](#19-known-issues)
 
-> Notice: Please report any bugs directly to me and they will be acknowledged and added to this page.
+> Notice: Please report any bugs directly to me and they will be acknowledged and added to this page. You can view all contact details at [pydigger](https://pydigger.com/pypi/ConsLoadingBar), [PyPi](https://pypi.org/project/ConsLoadingBar), and [github](https://github.com/flamechain/ConsLoadingBar).
 
 ___
 
@@ -75,25 +75,25 @@ ___
 
 ### 1.3.1 PiP
 
-Install via pip using this command. __Note that these commands use the $ symbol to signify the bash terminal. Don't add these in your command.__
+Install via pip using `pip install ConsLoadingBar`.
 
 ```bash
-$ pip install ConsLoadingBar
+pip install ConsLoadingBar
 ```
 
 You can also use '==' to specify the version. This would only be used to downgrade.
 
 ```bash
-$ pip install ConsLoadingBar == 1.2.2
+pip install ConsLoadingBar == 1.2.2
 ```
 
 To make sure you have the current version you can use this command instead:
 
 ```bash
-$ pip install --upgrade ConsLoadingBar
+pip install --upgrade ConsLoadingBar
 ```
 
-### 1.3.2 Manual Install (NOT SUGGESTED)
+### 1.3.2 Manual Install __(NOT SUGGESTED)__
 
 If you want to download the file directly follow these steps:
 
@@ -178,25 +178,32 @@ for i in range(101):
 
 ### 1.4.4 Using the start() method
 
-To use the start method, you can read more about it [here](#162-start), or on the second documentation [here](https://github.com/flamechain/Modules/blob/main/MoreDocumentation.md#25-start). If you want a brief summary keep reading.
-
-To use this, call it and then cancel it after a given time. Import concurrent.futures and put it on another thread. Then stop it on the main thread. If these seems complicated its suggested you read more about this method using the links above.
+This method is used to show an empty progress bar. This is similar to the [end()](#163-end) method, where it just prints once.
 
 ```python
-import consloadingbar, time, concurrent.futures
+lb = consloadingbar.Bar(useColor=True, taskCount=10)
 
-lb = consloadingbar.Bar(title='')
+start = time.time()
 
-stop_threads = False
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    future2 = executor.submit(lb.start, lambda: stop_threads)
-
-    time.sleep(2)
-
-    stop_threads = True
+lb.start()
+for i in range(101):
+    currentTime = time.time() - start
+    lb.progress(i, time_=currentTime, tasksDone=i//10)
+    time.sleep(0.01)
 ```
 
-This waits 2 seconds and then stops the method.
+Using default params, calling the start() method would print this to the console:
+
+```python
+lb.start()
+```
+
+```txt
+Running...
+        |                    |   0%  [tasks=0/5]
+```
+
+In this example there were 5 tasks specified, so it shows that.
 
 ### 1.4.5 Using the end() method
 
@@ -207,6 +214,7 @@ lb = consloadingbar.Bar(useColor=True, taskCount=10)
 
 start = time.time()
 
+lb.start()
 for i in range(101):
     currentTime = time.time() - start
     lb.progress(i, time_=currentTime, tasksDone=i//10)
@@ -331,7 +339,7 @@ ___
 
 ## 1.6 Using
 
-### 1.6.1 progress()
+### 1.6.1 progressBar()
 
 For this you can call the class like mentioned above, and then use the progress method to change the status of the bar. This is an example using only default values, and setting the status of the bar to 100%.
 
@@ -339,7 +347,7 @@ For this you can call the class like mentioned above, and then use the progress 
 import consloadingbar
 
 lb = consloadingbar.Bar()
-lb.progress(100)
+lb.progressBar(100)
 ```
 
 ```txt
@@ -353,7 +361,7 @@ lb = consloadingbar.Bar(taskCount=10)
 
 for i in range(11):
     percent = i * 10
-    lb.progress(percent, tasksDone=i)
+    lb.progressBar(percent, tasksDone=i)
 ```
 
 In this example, every iteration the bar's completion goes up by 10%, and 1 task finishes. Here is the result of the bar after completion.
@@ -375,7 +383,7 @@ for i in range(11):
     percent = i * 10
     currentTime = time.time() - startTime
 
-    lb.progress(percent, time_=currentTime, tasksDone=i)
+    lb.progressBar(percent, time_=currentTime, tasksDone=i)
 
     time.sleep(0.1)
 ```
@@ -388,33 +396,16 @@ In this example, we use the time module to calculate how many seconds have passe
 
 ### 1.6.2 start()
 
-This method is not used often, because most people would rather not have a flashy intro, or it doesn't fit there requirments.
+This method is most similar to the [end()](#163-end) method. It shows an empty progress bar.
 
 ```txt
-Loading Tasks /
+Running...
+        |                    |   0%  [tasks=0/5]
 ```
-
-It simple runs a spinning bar until stopped. You can stop this method by triggering the stop parameter, which stops itself.
-
-```python
-import consloadingbar, time, concurrent.futures
-
-lb = consloadingbar.Bar()
-
-stop_threads = False
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    future2 = executor.submit(lb.start, lambda: stop_threads)
-
-    time.sleep(1)
-
-    stop_threads = True
-```
-
-This example uses the concurrent module to thread this task, so the thread can be manipulated while running. When run this program will run the 'loading tasks' prompt for 1 second, then the program will stop. This print() statement uses '\r' or 'replace' so you can take advantage by completely clearing it from the screen after finished.
 
 ### 1.6.3 end()
 
-This is used much more often. What this does is it just prints the consloadingbar with all values maxed out, and eta gone (if there was one).
+What this does is it just prints the consloadingbar with all values maxed out, and eta gone (if there was one).
 
 ```python
 lb = consloadingbar.Bar(taskCount=5)
@@ -428,6 +419,20 @@ Finished
 ```
 
 ___
+
+### 1.6.4 progressCircle()
+
+This was made to replace the old start() method. This shows a title, and a spinning circle that either goes until stopped using threading, or stops after a specified time.
+
+```python
+lb.progressCircle(time_=2)
+```
+
+```txt
+Loading /
+```
+
+This simple code example will run this spinning circle loading indicator for 2 seconds, then it stops itself. Read more on threading it externally [here](./MoreDocumentation.md#222-concurrentfutures).
 
 ## 1.7 consloadingbar.SimulateTasks()
 
@@ -538,15 +543,16 @@ ___
 
 ___
 
-## 1.10 Future Big Updates
+## 1.10 Future Updates
 
 > Note: These release dates aren't offical and are only estimations
 
-| Version | Planned Changes | Release Date |
+| Version | Planned Changes |
 |-|-|:-:|
-| 1.5.0 | More features including multi-bar version, and different types of progress indicators. | 01/10/21 |
-| 1.4.0 | Compatibility with non-terminal formats. | 12/20/20 |
-| 1.3.0 | Ability to change bar format, pre-sets, and more than 1 example class. | 12/10/20 |
+| 1.5.0 | More features including multi-bar version, and different types of progress indicators |
+| 1.4.0 | Compatibility with non-terminal formats |
+| 1.3.0 | Ability to change bar format, pre-sets, and more than 1 example class |
+| 1.2.8 | More customization, and new methods |
 
 ___
 
@@ -556,20 +562,21 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
-| 1.2.6 | Added email and website to [pypi page](https://pypi.org/project/ConsLoadingBar/1.2.6/). | 12/03/20 |
-| 1.2.5 | Setup tokens so updates are easier and more frequent. | 12/02/20 |
-| 1.2.4 | Tweaks to documentation for more clarity. | 12/02/20 |
-| 1.2.3 | Converted module to offical PyPi / PiP package. | 12/02/20 |
-| 1.2.2 | Minor tweaks to eta calculation, fixed documentation mistakes. | 12/02/20 |
+| 1.2.7 | Replaced [start()](#162-start) method with [progressCircle()](#164-progresscircle) to allow for more customization, [start()](#162-start) method is now like the [end()](#163-end) method for the beginning; Also added more title customization including placement | 12/03/20 |
+| 1.2.6 | Added email and website to [pypi page](https://pypi.org/project/ConsLoadingBar/1.2.6/) | 12/03/20 |
+| 1.2.5 | Setup tokens so updates are easier and more frequent | 12/02/20 |
+| 1.2.4 | Tweaks to documentation for more clarity | 12/02/20 |
+| 1.2.3 | Converted module to offical PyPi / PiP package | 12/02/20 |
+| 1.2.2 | Minor tweaks to eta calculation, fixed documentation mistakes | 12/02/20 |
 | 1.2.1 | Added [Quick Start Guide](#14-quick-start-guide) to documentation, revised doc-strings in consloadingbar.py | 12/02/20 |
 | 1.2.0 | Changed all param names to be more clear, and removed some useless ones. Overall easier to use. | 12/02/20 |
 | 1.1.9 | Added colors to [end()](#163-end) method, and [pastBar](#191-pastbar). Added color param to [Bar()](#15-consloadingbarbar) class so the user has the ability to toggle color mode. | 12/02/20 |
 | 1.1.8 | [SimulateTasks()](#17-consloadingbarsimulatetasks) has an *args param to accept custom pre-set tasks. Updated all doc-strings and added technical comments. | 12/01/20 |
 | 1.1.7 | [SimulateTasks()](#17-consloadingbarsimulatetasks) no longer has nested functions, and doesn't have its own redundent [start()](#162-start) method. Also added title param to all methods so printing the title is built in. | 12/01/20 |
-| 1.1.6 | Added [bug log](#19-known-issues) and fixed [bugs](#19-known-issues) | 12/01/20 |
-| 1.1.5 | Bug fixes, added [version log](#111-version-Log) | 12/01/20 |
+| 1.1.6 | Created [Bug Log](#19-known-issues) | 12/01/20 |
+| 1.1.5 | Created [Version Log](#111-version-Log) | 12/01/20 |
 | 1.1.4 | Bug fixes | 12/01/20 |
-| 1.1.3 | Bug fixes, added [documentation](#1-consloadingbar-documentation) | 11/30/20 |
+| 1.1.3 | Released [Documentation](#1-consloadingbar-documentation) 1.0 | 11/30/20 |
 | 1.1.2 | Bug fixes | 11/30/20 |
 | 1.1.1 | Bug fixes | 11/30/20 |
 | 1.1.0 | Added [SimulateTasks()](#17-consloadingbarsimulatetasks) class to main module | 11/29/20 |
@@ -593,4 +600,4 @@ ___
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.6 - PyPi Release 4</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.7 - PyPi Release 5 - GitHub Release - 0</sub>

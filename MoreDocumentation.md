@@ -3,19 +3,20 @@
 ## Creator: FlameChain
 
 Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
-PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.6/)
+
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar)
+
+If this PyPi link doesn't work, you can try finding it on [pydigger](https://pydigger.com/pypi/ConsLoadingBar).
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 1.2.6
+### Version: 1.2.7
 
 Description: Extra documentation with larger and more specific examples. This mainly goes over how the [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks) method words, and how you can make it from scratch.
 
 ___
 
 ## 2.1 Contents
-
-> Note: Links to README file link to ./README.md so if your not on the github version, take this [link](https://github.com/flamechain/Modules/).
 
 - [1.0 Main Documentation](./README.md) |
 - [2.0 Secondary Documentation](#2-consloadingbar-documentation)
@@ -27,8 +28,7 @@ ___
   - [2.3.1 Pre-Loaded Tasks](#231-pre-loaded-tasks)
   - [2.3.2 Random Tasks](#232-random-tasks)
 - [2.4 Print Statements](#24-print-statements)
-- [2.5 Start() Method](#25-start)
-- [2.6 End() Method](#26-end)
+- [2.5 ProgressCircle() Method](#25-progresscircle)
 
 ___
 
@@ -69,7 +69,7 @@ lb.progress(total+1, totaltime)
 
 This code puts a 0.005*15 delay, or 0.075 second delay between 1 percent, telling the progress method that on average it should go up 13% per second. This was found to be a good baseline.
 
-> Note: The 15 comes from the default eta parameter for the [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks) class.
+> Note: The 15 comes from the default estimatedTotalTime parameter for the [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks) class.
 
 The actaully threading comes in here. It runs the runprogress() method as 1 thread, and sleeps on the other, or the 'main' thread.
 
@@ -92,7 +92,7 @@ What this does is it creates a loop that will go through every fake task (sleepi
 
 ### 2.2.2 concurrent.futures
 
-This is used only in 1 area as well to simply get a return value from a function, where the threading module has no easy way to do that. This is just to run a 'loading tasks' popup while the tasks are being generated. Most of the delay is artifical.
+This is used only in 1 area as well to simply get a return value from a function, where the threading module has no easy way to do that. This is just to run a 'loading' popup while the tasks are being generated. Most of the delay is artifical.
 
 ```python
 stop_threads = False
@@ -100,13 +100,13 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
     future = executor.submit(loadtasks)
 
     if self.estimatedTotalTime > 5:
-        future2 = executor.submit(start, lambda: stop_threads)
+        future2 = executor.submit(lb.progressCircle, lambda: stop_threads)
 
     tasks = future.result()
     stop_threads = True
 ```
 
-This uses the same technique to have the function stop itself. Next we will look at the function that actaully makes the random tasks.
+This uses the same technique to have the function stop itself. Next we will look at the function that actaully makes the random tasks. Notice how the [progressCircle()](./README.md#164-progresscircle) method is being used. This is the second way it can be used, the first explained [here](./README.md#164-progresscircle).
 
 ## 2.3 Generating Tasks
 
@@ -138,7 +138,7 @@ if len(self.tasks) > 0:
         stop_threads = False
         lb = Bar(self.barLength, self.estimatedTotalTime)
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            future = executor.submit(lb.start, lambda: stop_threads)
+            future = executor.submit(lb.progressCircle, lambda: stop_threads)
             time.sleep(1)
             stop_threads = True
 ```
@@ -232,63 +232,6 @@ This is enabled when threading with real tasks. It uses prior data to estimate h
 time.sleep((float(eta) / (100-current)))
 ```
 
-## 2.5 start()
-
-This start method is very simple, and is coded like this:
-
-```python
-def start(self, stop=False, title='Loading Tasks'):
-    percsyms = ['|', '/', '-', '\\']
-
-    j = 0
-    while True:
-        if stop():
-            break
-
-        print('%s %s' % (title, percsyms[j]), end='\r')
-
-        j += 1
-        if j == 4:
-            j = 1
-
-        time.sleep(0.2)
-
-    print(self.title)
-```
-
-Notice that this requires to be stopped by an outside peice of code, so this is not a one-off method that you can just run, un-like [end()](#26-end).
-
-## 2.6 end()
-
-This method is simply called like this:
-
-```python
-lb.end()
-```
-
-The code for this method is here:
-
-```python
-def end(self, taskCount=None, title='Finished'):
-    bar  = self.mainBarChar * self.barLength
-
-    if taskCount == None:
-        taskCount = self.taskCount
-
-    print("\033[F" + termcolor.colored(title, self.green) + "\t\t\t\t\t\t\t\t")
-
-    if taskCount == None:
-        print(f'\t{self.endPointChars[0]}{bar}{self.endPointChars[1]}', end='')
-        print(termcolor.colored(' 100%%' + self.green))
-    else:
-        print(f'\t{self.endPointChars[0]}{bar}{self.endPointChars[1]}', end='')
-        print(termcolor.colored(' 100%%' + f'  [tasks={taskCount}/{taskCount}]', self.green))
-```
-
-This method has the color integration as mentioned [here](./README.md#1510-usecolor).
-
-> Note: All code examples here don't have comments to save space. If you want to view the full code, click [here](https://github.com/flamechain/Modules/blob/main/consloadingbar.py).
-
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.6 - PyPi Release 4</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.7 - PyPi Release 5 - GitHub Release - 0</sub>

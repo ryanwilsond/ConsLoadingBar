@@ -6,5 +6,4 @@ setup.py
 ConsLoadingBar.egg-info/PKG-INFO
 ConsLoadingBar.egg-info/SOURCES.txt
 ConsLoadingBar.egg-info/dependency_links.txt
-ConsLoadingBar.egg-info/requires.txt
 ConsLoadingBar.egg-info/top_level.txt
