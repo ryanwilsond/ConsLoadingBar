@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="ConsLoadingBar",
-    version="1.2.2",
+    version="1.2.3",
     author="flamechain",
     author_email="rwc@thezulus.com",
     description="Easy to make progress bars",
@@ -23,3 +23,9 @@ setup(
     #   "termcolor >= 1.1.0",
     # ],
 )
+
+# delete files from dist
+# update version number
+# run: python3 setup.py sdist bdist_wheel
+# run: twine upload dist/*
+# push to git

@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: ConsLoadingBar
-Version: 1.2.2
+Version: 1.2.3
 Summary: Easy to make progress bars
 Home-page: https://github.com/pypa/sampleproject
 Author: flamechain
@@ -11,6 +11,7 @@ Description: # 1 ConsLoadingBar Documentation
         ## Creator: FlameChain
         
         Github Link: [flamechain/Modules/](https://github.com/flamechain/Modules)
+        PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.2/)
         
         ### Version: 1.2.2
         
@@ -56,7 +57,7 @@ Description: # 1 ConsLoadingBar Documentation
         - [1.11 Version Log](#111-version-log)
           - [1.11.1 Modern Versions](#1111-modern-versions)
           - [1.11.2 Early Stage Version](#1112-early-stage-versions)
-        - [2.0 Secondary Documentation](./MoreDocumentation.md)
+        - [2.0 Secondary Documentation](https://github.com/flamechain/Modules/blob/main/MoreDocumentation.md)
         
         ___
         
@@ -162,7 +163,7 @@ Description: # 1 ConsLoadingBar Documentation
         
         ### 1.4.4 Using the start() method
         
-        To use the start method, you can read more about it [here](#162-start), or on the second documentation [here](./MoreDocumentation.md#25-start). If you want a brief summary keep reading.
+        To use the start method, you can read more about it [here](#162-start), or on the second documentation [here](https://github.com/flamechain/Modules/blob/main/MoreDocumentation.md#25-start). If you want a brief summary keep reading.
         
         To use this, call it and then cancel it after a given time. Import concurrent.futures and put it on another thread. Then stop it on the main thread. If these seems complicated its suggested you read more about this method using the links above.
         
