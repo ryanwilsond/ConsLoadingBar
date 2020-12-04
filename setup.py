@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="ConsLoadingBar",
-    version="1.2.9",
+    version="1.3.0",
     author="flamechain",
     author_email="rwc+modules@thezulus.com",
     description="Easy to make progress bars",
@@ -22,12 +22,11 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    python_requires='>=3.6',
+    install_requires = [
+        "termcolor >= 1.1.0",
+    ],
 )
-
-python_requires='>=3.6'
-# install_requires = [
-#     "termcolor >= 1.1.0",
-# ]
 
 # delete files from dist
 # update version number
