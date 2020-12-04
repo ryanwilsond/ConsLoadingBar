@@ -1,4 +1,4 @@
-# v1.2.8
+# v1.2.9
 import time, random, concurrent.futures, threading, termcolor
 
 class Bar:
@@ -399,5 +399,3 @@ class SimulateTasks:
             tasks[i] = round(tasks[i], 1)
 
         return tasks
-
-SimulateTasks()

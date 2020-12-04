@@ -4,13 +4,13 @@
 
 Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
 
-PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.8)
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.9)
 
 If this PyPi link doesn't work, you can try finding it on [pydigger](https://pydigger.com/pypi/ConsLoadingBar).
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 1.2.8
+### Version: 1.2.9
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
@@ -562,6 +562,7 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
+| 1.2.9 | [SimulateTasks()](#17-consloadingbarsimulatetasks) would run when initilizing Bar() | 12/03/20 |
 | 1.2.8 | Bug fixes | 12/03/20 |
 | 1.2.7 | Replaced [start()](#162-start) method with [progressCircle()](#164-progresscircle) to allow for more customization, [start()](#162-start) method is now like the [end()](#163-end) method for the beginning; Also added more title customization including placement | 12/03/20 |
 | 1.2.6 | Added email and website to [pypi page](https://pypi.org/project/ConsLoadingBar/1.2.6/) | 12/03/20 |
@@ -601,4 +602,4 @@ ___
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.8 - PyPi Release 5 - GitHub Release - 0</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.9 - PyPi Release 5 - GitHub Release - 0</sub>

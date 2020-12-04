@@ -1,0 +1,9 @@
+MANIFEST.in
+MoreDocumentation.md
+README.md
+consloadingbar.py
+setup.py
+src/ConsLoadingBar.egg-info/PKG-INFO
+src/ConsLoadingBar.egg-info/SOURCES.txt
+src/ConsLoadingBar.egg-info/dependency_links.txt
+src/ConsLoadingBar.egg-info/top_level.txt
