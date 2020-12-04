@@ -4,13 +4,13 @@
 
 Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
 
-PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.7)
+PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar/1.2.8)
 
 If this PyPi link doesn't work, you can try finding it on [pydigger](https://pydigger.com/pypi/ConsLoadingBar).
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 1.2.7
+### Version: 1.2.8
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
@@ -537,6 +537,7 @@ ___
 | Version | Bug ID | Description | Status | Fix Date |
 |-|-|-|:-:|:-:|
 | 1.2.0 | 003 | pastBar sometimes has random prints. | Not Fixed |   |
+| 1.2.7 | 004 | PiP not finding package, has bad files. | Fixed |
 | 1.2.2 | 004 | SimulateTasks() runs when using import. | Fixed | 12/02/20 |
 | 1.1.8 | 002 | pastBar would freeze program | Fixed | 12/02/20 |
 | 1.1.6 | 001 | time_ param in progress() method froze program if over 100 | Fixed | 12/01/20 |
@@ -552,7 +553,6 @@ ___
 | 1.5.0 | More features including multi-bar version, and different types of progress indicators |
 | 1.4.0 | Compatibility with non-terminal formats |
 | 1.3.0 | Ability to change bar format, pre-sets, and more than 1 example class |
-| 1.2.8 | More customization, and new methods |
 
 ___
 
@@ -562,6 +562,7 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
+| 1.2.8 | Bug fixes | 12/03/20 |
 | 1.2.7 | Replaced [start()](#162-start) method with [progressCircle()](#164-progresscircle) to allow for more customization, [start()](#162-start) method is now like the [end()](#163-end) method for the beginning; Also added more title customization including placement | 12/03/20 |
 | 1.2.6 | Added email and website to [pypi page](https://pypi.org/project/ConsLoadingBar/1.2.6/) | 12/03/20 |
 | 1.2.5 | Setup tokens so updates are easier and more frequent | 12/02/20 |
@@ -600,4 +601,4 @@ ___
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.2.7 - PyPi Release 5 - GitHub Release - 0</sub>
+<sub>Documentation Version 2.6 - Module Version 1.2.8 - PyPi Release 5 - GitHub Release - 0</sub>

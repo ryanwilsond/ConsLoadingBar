@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="ConsLoadingBar",
-    version="1.2.7",
+    version="1.2.8",
     author="flamechain",
     author_email="rwc+modules@thezulus.com",
     description="Easy to make progress bars",
@@ -18,7 +18,6 @@ setup(
     download_url="https://pypi.org/project/ConsLoadingBar/",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Environment :: Console",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
