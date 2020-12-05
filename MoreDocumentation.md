@@ -6,11 +6,11 @@ Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
 
 PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar)
 
-If this PyPi link doesn't work, you can try finding it on [pydigger](https://pydigger.com/pypi/ConsLoadingBar).
+PyDigger Link: [pypi/ConsLoadingBar](https://pydigger.com/pypi/ConsLoadingBar)
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 1.3.0
+### Version: 1.3.1
 
 Description: Extra documentation with larger and more specific examples. This mainly goes over how the [SimulateTasks()](./README.md#17-consloadingbarsimulatetasks) method words, and how you can make it from scratch.
 
@@ -112,7 +112,7 @@ This uses the same technique to have the function stop itself. Next we will look
 
 ### 2.3.1 Pre-Loaded Tasks
 
-If you use the optional *args parameter, you can classify your own tasks. See [here](./README.md#182-simulatetasks-args).
+If you use the optional *args parameter, you can classify your own tasks. See [here](./README.md#182-simulatetasks-args). You can also use **kwargs instead. See [here](./README.md#183-simulatetasks-kwargs).
 
 If you do use this option, there is custom error-handling to make sure nothing brakes. In this example 'self.tasks' was pre-specified in the initializer to equal a list of *args. That is why it checks to see if the list is empty.
 
@@ -234,4 +234,4 @@ time.sleep((float(eta) / (100-current)))
 
 ___
 
-<sub>Documentation Version 2.6 - Module Version 1.3.0 - PyPi Release 6 - GitHub Release - 0</sub>
+<sub>Documentation Version 2.7 - Module Version 1.3.1 - PyPi Release 7 - GitHub Release - 0</sub>

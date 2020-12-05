@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="ConsLoadingBar",
-    version="1.3.0",
+    version="1.3.1",
     author="flamechain",
     author_email="rwc+modules@thezulus.com",
     description="Easy to make progress bars",

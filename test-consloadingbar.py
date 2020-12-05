@@ -1,4 +1,38 @@
-import consloadingbar
+import consloadingbar, time, concurrent.futures
 
-def test_consloadingbar_progressbar():
-    pass
+success = 0
+error = 0
+
+try:
+    clb = consloadingbar.Bar(title='test')
+    assert clb.progressBar(0) == print('test |                    |   0%')
+    success += 1
+except: error += 1
+
+try:
+    clb = consloadingbar.Bar(mainBarChar='▓', title='test')
+    assert clb.progressBar(1) == print('test |▓                   |   0%')
+    success += 1
+except: error += 1
+
+try:
+    clb = consloadingbar.Bar(taskCount=-1.1)
+    error += 1
+except ValueError: success += 1
+
+try:
+    assert clb.progressCircle(time_=0) == print('Loading |')
+    success += 1
+except: error += 1
+
+try:
+    clb = consloadingbar.SimulateTasks(0, args=[50, 50])
+    success += 1
+except: error += 1
+
+try:
+    clb = consloadingbar.Bar(title='test\033[F')
+    error += 1
+except: success += 1
+
+print(success, error)

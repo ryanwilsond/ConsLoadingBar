@@ -1,5 +1,5 @@
-# v1.3.0
-import time, random, concurrent.futures, threading, termcolor
+# v1.3.1
+import time, random, concurrent.futures, threading, termcolor, sys
 
 class Bar:
     def __init__(self, barLength=20, useETACalculation=False, taskCount=None, mainBarChar='█', progressPointBarChar='█', endPointChars=['|', '|'], title='Running Tasks...\n', useColor=False):
@@ -25,34 +25,51 @@ class Bar:
 
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
+        error = ValueError(termcolor.colored('Check params and try again', 'red'))
+        okChars = ['|', ' ', '[', ']', '█', '▓', '▒', '░', '║', '#', '$', '^', '&', '*', '(', ')', '-', '+', '=',' !', '@', '{', '}', '/', '`', '~', '0', '.']
+        otherChars = ['\n', '\t']
         try:
+            if useColor:
+                self.green = 'green'
+                self.red = 'red'
+            else:
+                self.green = 'white'
+                self.red = 'white'
+
             self.barLength = int(barLength)
+            if self.barLength < 0:
+                raise error
             if taskCount != None:
                 self.taskCount = int(taskCount)
+                if self.taskCount < 0:
+                    raise error
             else:
                 self.taskCount = taskCount
-            self.title = str(title)
+            for letter in title:
+                if (letter.isalnum()) | (letter in okChars) | (letter in otherChars):
+                    pass
+                else:
+                    raise error
+            self.title = title
             self.total = 100
             self.percChar = '%'
             self.useETACalculation = bool(useETACalculation)
-            
-            if useColor:
-                self.green = 'green'
-            else:
-                self.green = 'white'
+
         except:
-            return print('ValueError: Check parameters and try again.')
-        
-        okChars = ['|', '[', ']', '█', '#', '$', '^', '&', '*', '(', ')', '-', '+', '=',' !', '@', '{', '}', '/', '`', '~', '0']
+            raise error
+
         if mainBarChar in okChars:
             self.mainBarChar = mainBarChar
-        else: return print('ValueError: Check mainBarChar and try again.')
+        else:
+            raise error
         if progressPointBarChar in okChars:
             self.progressPointBarChar = progressPointBarChar
-        else: return print('ValueError: Check progressPointBarChar and try again.')
+        else:
+            raise error
         if (endPointChars[0] in okChars) & (endPointChars[1] in okChars):
             self.endPointChars = endPointChars
-        else: return print('ValueError: Check endPointChars and try again.')
+        else:
+            raise error
 
     def start(self):
         '''
@@ -96,7 +113,9 @@ class Bar:
         '''
         # Generates Bar Format
         percent = float(current) * 100 / self.total
-        bar = self.mainBarChar * int(percent/100 * self.barLength - 1) + self.progressPointBarChar
+        bar = self.mainBarChar * int(percent/100 * self.barLength - 1)
+        if len(bar) != 0:
+            bar = bar + self.progressPointBarChar
         spaces  = ' ' * (self.barLength - len(bar))
         space = ' ' * (5 - len(str(percent)))
 
@@ -133,26 +152,28 @@ class Bar:
         if pastBar != None:
             temp1 = 1
             temp2 = pastBar
+            string_ = None
             while len(bar) > pastBar:
-                string_ = '%s%s%s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], self.mainBarChar * temp2, termcolor.colored(self.mainBarChar * temp1, self.green),
+                string_ = '%s %s%s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], self.mainBarChar * temp2, termcolor.colored(self.mainBarChar * temp1, self.green),
                 (spaces + (" " * (len(bar)-pastBar-1))), self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount)
                 print(string_, end='\r')
                 pastBar += 1
                 temp1 += 1
                 time.sleep(0.05)
 
-            string_ = string_.replace(self.mainBarChar, termcolor.colored(self.mainBarChar, 'white'))
-            print(string_, end='\r')
+            if string_ != None:
+                string_ = string_.replace(self.mainBarChar, termcolor.colored(self.mainBarChar, 'white'))
+                print(string_, end='\r')
             return len(bar)
 
         # Prints all values it has
         else:
             if (time_ == None) & (self.taskCount == None):
-                print('%s%s%s%s%s %s%d%s' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar), end='\r')
+                print('%s %s%s%s%s %s%d%s' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar), end='\r')
             elif (time_ == None) & (self.taskCount != None):
-                print('%s%s%s%s%s %s%d%s  [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, tasksDone, self.taskCount), end='\r')
+                print('%s %s%s%s%s %s%d%s  [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, tasksDone, self.taskCount), end='\r')
             elif (time != None) & (self.taskCount == None):
-                print('%s%s%s%s%s %s%d%s  [eta=%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta), end='\r')
+                print('%s %s%s%s%s %s%d%s  [eta=%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta), end='\r')
             elif (time != None) & (self.taskCount != None):
                 print('%s %s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount), end='\r')
             eta_, eta2_ = eta.split(':')
@@ -187,7 +208,7 @@ class Bar:
         '''
         percsyms = ['|', '/', '-', '\\']
 
-        def func(title, percysyms, stop=False):  
+        def func(stop=False):  
             j = 0
             while True:
                 if stop():
@@ -201,15 +222,9 @@ class Bar:
 
                 time.sleep(0.2)
 
-        j = 0
-        if time_ != None:
-            stop_threads = False
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                future = executor.submit(func, lambda: stop_threads)
-                time.sleep(time_)
-                stop_threads = True
-        else:
-            while True: # Runs until stopped by stop()
+        if time_ == None:
+            j = 0
+            while True:
                 if stop():
                     break
 
@@ -220,6 +235,13 @@ class Bar:
                     j = 1
 
                 time.sleep(0.2)
+
+        else:
+            stop_threads = False
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.submit(func, lambda: stop_threads)
+                time.sleep(time_)
+                stop_threads = True
 
     def end(self, tasks=None, title='Finished\n'):
         '''
@@ -264,7 +286,7 @@ class Bar:
             print(termcolor.colored(' 100' + self.percChar + f'  [tasks={total_tasks}/{total_tasks}]', self.green) + '\t\t')
 
 class SimulateTasks:
-    def __init__(self, estimatedTotalTime=15, barLength=20, *args):
+    def __init__(self, estimatedTotalTime=15, barLength=20, *args, **kwargs):
         '''
         ### Description
 
@@ -277,6 +299,7 @@ class SimulateTasks:
         | estimatedTotalTime | True | Bar() eta param, used for average time. |
         | barLength | True | Length of the bar in characters. |
         | *args | True | If you want to use external task values for unit testing. |
+        | **kwargs | True | Used if you want to specify a list like args=[] |
 
         PyPi Link: https://pypi.org/project/ConsLoadingBar
 
@@ -285,8 +308,9 @@ class SimulateTasks:
         self.barLength = barLength
         self.estimatedTotalTime = estimatedTotalTime
         self.total = 100
-        self.simulateTasks
         self.tasks = args
+        if kwargs:
+            self.tasks = kwargs['args']
         self.simulateTasks()
 
     def simulateTasks(self):
