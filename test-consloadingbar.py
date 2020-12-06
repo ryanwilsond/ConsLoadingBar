@@ -35,4 +35,10 @@ try:
     error += 1
 except: success += 1
 
+try:
+    clb = consloadingbar.Bar()
+    assert clb.progressStack(0) == print('%s %s' % ('Loading', ' '))
+    success += 1
+except: error += 1
+
 print(success, error)

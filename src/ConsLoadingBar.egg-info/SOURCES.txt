@@ -1,6 +1,7 @@
+Documentation.md
 MANIFEST.in
-MoreDocumentation.md
 README.md
+demo.py
 setup.py
 test-consloadingbar.py
 src/ConsLoadingBar.egg-info/PKG-INFO
