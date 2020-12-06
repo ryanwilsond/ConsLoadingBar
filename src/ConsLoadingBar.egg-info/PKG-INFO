@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: ConsLoadingBar
-Version: 2.0.0
+Version: 2.0.1
 Summary: Easy to make progress bars
 Home-page: https://github.com/flamechain/ConsLoadingBar
 Author: flamechain
@@ -14,6 +14,10 @@ Description: # Progress Indicators for Python
         ![pypi](https://shields.io/pypi/v/consloadingbar.svg)
         
         ![demo](./progressbar.gif)
+        
+        GitHub Page: [flamechain/ConsLoadingBar](https://github.com/flamechain/ConsLoadingBar)
+        
+        Full Docs: [flamechain/ConsLoadingBar/Documentation.md](https://github.com/flamechain/ConsLoadingBar/blob/main/Documentation.md)
         
         ## Quick-Start Guide
         
@@ -59,14 +63,6 @@ Description: # Progress Indicators for Python
         
         ```python
         lb.progressCircle(time_=2) # Will run for 2 seconds
-        ```
-        
-        ### progressStack()
-        
-        This is used to show 1 character change in any fashion. The default is a stack, but you can change it using the phases param from Bar().
-        
-        ```python
-        lb.progressStack(0) # That number is the phase index of the phase list. 0 In the default case is ' ' a space
         ```
         
         ___

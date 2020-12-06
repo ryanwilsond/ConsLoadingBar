@@ -10,7 +10,7 @@ PyDigger Link: [pypi/ConsLoadingBar](https://pydigger.com/pypi/ConsLoadingBar)
 
 > Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
 
-### Version: 2.0.0
+### Version: 2.0.1
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
@@ -653,6 +653,7 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
+| 2.0.1 | Added links to README, removed old section | 12/06/20 |
 | 2.0.0 | Added new params and customability! Also moved major documentation into speperate docs, and replaced README with a gif and quick start guide, and changed version numbering system | 12/06/20 |
 | 1.3.1 | Major patch update. [Fixed many bugs](#90-known-issues) | 12/03/20 |
 | 1.3.0 | Final version of [progressCircle()](#44-progresscircle) method | 12/03/20 |

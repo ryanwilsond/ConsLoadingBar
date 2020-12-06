@@ -4,6 +4,10 @@
 
 ![demo](./progressbar.gif)
 
+GitHub Page: [flamechain/ConsLoadingBar](https://github.com/flamechain/ConsLoadingBar)
+
+Full Docs: [flamechain/ConsLoadingBar/Documentation.md](https://github.com/flamechain/ConsLoadingBar/blob/main/Documentation.md)
+
 ## Quick-Start Guide
 
 ```python
@@ -48,14 +52,6 @@ This is used to show a spinner go round in a circle pattern. See demo above. To 
 
 ```python
 lb.progressCircle(time_=2) # Will run for 2 seconds
-```
-
-### progressStack()
-
-This is used to show 1 character change in any fashion. The default is a stack, but you can change it using the phases param from Bar().
-
-```python
-lb.progressStack(0) # That number is the phase index of the phase list. 0 In the default case is ' ' a space
 ```
 
 ___
