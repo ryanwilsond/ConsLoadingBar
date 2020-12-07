@@ -1,4 +1,4 @@
-# v2.0.2
+# v2.0.4
 import time, random, concurrent.futures, threading, termcolor, sys
 
 class Bar:
@@ -104,7 +104,7 @@ class Bar:
         else:
             print('%s%s%s%s   0%%  [tasks=0/%s]' % (title, self.endPointChars[0], ' ' * self.barLength, self.endPointChars[1], self.taskCount), end='\r')
 
-    def progressBar(self, current, time_=None, tasksDone=0, lazyLoad=None):
+    def progressBar(self, current, time_=None, tasksDone=0, lazyLoad=None, returnString=False):
         '''
         ### Description
 
@@ -118,6 +118,7 @@ class Bar:
         | time_ | True | How long its taken so far. Used for calculating eta. |
         | tasksDone | True | Amount of tasks done, just for visualization. |
         | lazyLoad | True | Used if you don't have threading, but want a nice animation to get to current percent. |
+        | returnString | True | Used if you want the string, not the print. |
 
         PyPi Link: https://pypi.org/project/ConsLoadingBar
 
@@ -168,26 +169,33 @@ class Bar:
             while len(bar) > lazyLoad:
                 string_ = '%s %s%s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], self.mainBarChar * temp2, termcolor.colored(self.mainBarChar * temp1, self.green),
                 (spaces + (self.emptyBarChar * (len(bar)-lazyLoad-1))), self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount)
-                print(string_, end='\r')
+                if returnString == False:
+                    print(string_, end='\r')
                 lazyLoad += 1
                 temp1 += 1
                 time.sleep(0.05)
 
             if string_ != None:
-                string_ = string_.replace(self.mainBarChar, termcolor.colored(self.mainBarChar, 'white'))
-                print(string_, end='\r')
+                string_2 = string_.replace(self.mainBarChar, termcolor.colored(self.mainBarChar, 'white'))
+                if returnString == False:
+                    print(string_2, end='\r')
+                else:
+                    return len(bar), string_ + string_2
             return len(bar)
 
         # Prints all values it has
         else:
             if (time_ == None) & (self.taskCount == None):
-                print('%s %s%s%s%s %s%d%s' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar), end='\r')
+                string_ = '%s %s%s%s%s %s%d%s' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar)
             elif (time_ == None) & (self.taskCount != None):
-                print('%s %s%s%s%s %s%d%s  [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, tasksDone, self.taskCount), end='\r')
+                string_ = '%s %s%s%s%s %s%d%s  [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, tasksDone, self.taskCount)
             elif (time != None) & (self.taskCount == None):
-                print('%s %s%s%s%s %s%d%s  [eta=%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta), end='\r')
+                string_ = '%s %s%s%s%s %s%d%s  [eta=%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta)
             elif (time != None) & (self.taskCount != None):
-                print('%s %s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount), end='\r')
+                string_ = '%s %s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount)
+            if returnString == False:
+                print(string_, end='\r')
+
             eta_, eta2_ = eta.split(':')
 
             while int(eta_) != 0:
@@ -199,8 +207,11 @@ class Bar:
                     time.sleep(0.01)
                 else:
                     time.sleep((float(eta2_)/(self.total-current)))
+            
+            if returnString == True:
+                return string_
     
-    def progressCircle(self, stop=False, time_=None, title='Loading', status=None, char=None):
+    def progressCircle(self, stop=False, time_=None, title='Loading', status=None, char=None, returnString=False):
         '''
         ### Description
 
@@ -227,24 +238,30 @@ class Bar:
                 print('%s %s' % (title, self.phases[j]), end='\r')
 
                 j += 1
-                if j == 4:
-                    j = 1
+                if j == len(self.phases):
+                    j = 0
 
                 time.sleep(0.2)
 
         if char != None:
             if '\n' in title:
-                print('\033[F%s' % title, end='')
-                print(f'{char}\t', end='\r')
+                string_ = '\033[F%s%s\t' % (title, char)
             else:
-                print('%s %s\t' % (title, char), end='\r')
+                string_ = '%s %s\t' % (title, char)
+            if returnString == True:
+                return string_
+            else:
+                print(string_, end='\r')
 
         elif status != None:
             if '\n' in title:
-                print('\033[F%s' % title, end='')
-                print(self.phases[status], end='\r')
+                string_ = '\033[F%s%s' % (title, self.phases[status])
             else:
-                print('%s %s' % (title, self.phases[status]), end='\r')
+                string_ = '%s %s' % (title, self.phases[status])
+            if returnString == True:
+                return string_
+            else:
+                print(string_, end='\r')
 
         elif time_ == None:
             j = 0
@@ -260,12 +277,14 @@ class Bar:
 
                 time.sleep(0.2)
 
-        else:
+        elif time_ != None:
             stop_threads = False
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 executor.submit(func, lambda: stop_threads)
                 time.sleep(time_)
                 stop_threads = True
+            
+        else: return ValueError('Something Went Wrong. Try Again.', self.red)
 
     def end(self, tasks=None, title='Finished\n'):
         '''

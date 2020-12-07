@@ -14,6 +14,8 @@ PyDigger Link: [pypi/ConsLoadingBar](https://pydigger.com/pypi/ConsLoadingBar)
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
+Backwards Compatible Since 2.0.0
+
 ___
 
 ## 1.0 Contents
@@ -265,6 +267,8 @@ In this example, we use the time module to calculate how many seconds have passe
 |████████████        |  60%  [eta=00:04.36] [tasks=6/10]
 ```
 
+You can also use ``returnString=True`` to get the output as a string instead of a print statement.
+
 ### 4.2 start()
 
 This method is most similar to the [end()](#43-end) method. It shows an empty progress bar.
@@ -302,6 +306,8 @@ Loading /
 ```
 
 This simple code example will run this spinning circle loading indicator for 2 seconds, then it stops itself. Read more on threading it externally [here](#72-concurrentfutures).
+
+You can also use ``returnString=True`` to get the output as a string instead of a print statement.
 
 ___
 
@@ -655,6 +661,8 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
+| 2.0.4 | Added returnString param to [progressBar()](#41-progressbar) and [progressCircle()](#44-progresscircle) to return string instead of print | 12/06/20 |
+| 2.0.3 | Unstable | 12/06/20 |
 | 2.0.2 | Changed README and fixed bug | 12/06/20 |
 | 2.0.1 | Added links to README, removed old section | 12/06/20 |
 | 2.0.0 | Added new params and customability! Also moved major documentation into speperate docs, and replaced README with a gif and quick start guide, and changed version numbering system | 12/06/20 |
@@ -697,7 +705,3 @@ ___
 | alpha | 1.2 | Eta calculator | 11/25/20 |
 | alpha | 1.1 | Class form | 11/25/20 |
 | alpha | 1.0 | First version, only progress method as single function | 11/24/20 |
-
-___
-
-<sub>Documentation Version 3.0 - Module Version 2.0.2 - PyPi Release 10</sub>
