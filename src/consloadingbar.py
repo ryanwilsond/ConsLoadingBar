@@ -1,4 +1,4 @@
-# v2.0.1
+# v2.0.2
 import time, random, concurrent.futures, threading, termcolor, sys
 
 class Bar:

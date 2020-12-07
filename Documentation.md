@@ -2,15 +2,15 @@
 
 ## Creator: FlameChain
 
+### Maintainers: FlameChain
+
 Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
 
 PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar)
 
 PyDigger Link: [pypi/ConsLoadingBar](https://pydigger.com/pypi/ConsLoadingBar)
 
-> Note: Some links may not work as this documentation was made for github. You can visit that github page to have the full expeirence, and get some extra documentation, by clicking the link above or [here](https://github.com/flamechain/ConsLoadingBar).
-
-### Version: 2.0.1
+![pypi](https://shields.io/pypi/v/consloadingbar.svg)
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
@@ -62,9 +62,10 @@ ___
 
 ## 2.0 New Changes
 
+- 2.0.2 [Revised new README](./README.md)
+- 2.0.1 [New README](./README.md)
+- 2.0.0 Revised methods and added many features
 - 1.3.1 [Major patch update](#90-known-issues)
-- 1.3.0 [Added progressCircle() method!](#44-progressCircle())
-- 1.3.0 [Re-did start() method](#42-start)
 
 > Notice: Please report any bugs directly to me and they will be acknowledged and added to this page. Add them to the issues page [here](https://github.com/flamechain/ConsLoadingBar/issues).
 
@@ -620,15 +621,16 @@ ___
 
 | Version | Bug ID | Description | Status | Fix Date |
 |-|-|-|:-:|:-:|
-| 1.3.0 | 014 | Title doesn't have 1 space padding | Fixed | 12/03/20 |
-| 1.3.0 | 013 | Only 1 block character is in allowedChars | Fixed | 12/03/20 |
-| 1.3.0 | 012 | TaskCount isn't converted to int or positive | Fixed | 12/03/20 |
-| 1.3.0 | 011 | If *args is specified as list, gives TypeError | Fixed | 12/03/20 |
-| 1.3.0 | 010 | 0 barLength has a length of 1 not 0 | Fixed | 12/03/20 |
-| 1.3.0 | 009 | Ints are checked if positive or not | Fixed | 12/03/20 |
-| 1.3.0 | 008 | If invalid param, program runs anyway and gives AttributeError | Fixed | 12/03/20 |
-| 1.3.0 | 007 | ProgressCircle() doesn't print when not threaded | Fixed | 12/03/20 |
-| 1.3.0 | 006 | Title for progressBar isn't sanitized | Fixed | 12/03/20 |
+| 2.0.1 | 015 | ProgressCircle() printed raw string, not formatted | Fixed | 12/06/20 |
+| 1.3.0 | 014 | Title doesn't have 1 space padding | Fixed | 12/04/20 |
+| 1.3.0 | 013 | Only 1 block character is in allowedChars | Fixed | 12/04/20 |
+| 1.3.0 | 012 | TaskCount isn't converted to int or positive | Fixed | 12/04/20 |
+| 1.3.0 | 011 | If *args is specified as list, gives TypeError | Fixed | 12/04/20 |
+| 1.3.0 | 010 | 0 barLength has a length of 1 not 0 | Fixed | 12/04/20 |
+| 1.3.0 | 009 | Ints are checked if positive or not | Fixed | 12/04/20 |
+| 1.3.0 | 008 | If invalid param, program runs anyway and gives AttributeError | Fixed | 12/04/20 |
+| 1.3.0 | 007 | ProgressCircle() doesn't print when not threaded | Fixed | 12/04/20 |
+| 1.3.0 | 006 | Title for progressBar isn't sanitized | Fixed | 12/04/20 |
 | 1.2.7 | 004 | PiP not finding package, has bad files | Fixed | 12/03/20 |
 | 1.2.2 | 004 | SimulateTasks() runs when using import | Fixed | 12/02/20 |
 | 1.2.0 | 003 | lazyLoad sometimes has random prints. | Fixed | 12/03/20 |
@@ -653,6 +655,7 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
+| 2.0.2 | Changed README and fixed bug | 12/06/20 |
 | 2.0.1 | Added links to README, removed old section | 12/06/20 |
 | 2.0.0 | Added new params and customability! Also moved major documentation into speperate docs, and replaced README with a gif and quick start guide, and changed version numbering system | 12/06/20 |
 | 1.3.1 | Major patch update. [Fixed many bugs](#90-known-issues) | 12/03/20 |
@@ -697,4 +700,4 @@ ___
 
 ___
 
-<sub>Documentation Version 3.0 - Module Version 2.0.0 - PyPi Release 8</sub>
+<sub>Documentation Version 3.0 - Module Version 2.0.2 - PyPi Release 10</sub>

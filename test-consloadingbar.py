@@ -37,7 +37,7 @@ except: success += 1
 
 try:
     clb = consloadingbar.Bar()
-    assert clb.progressStack(0) == print('%s %s' % ('Loading', ' '))
+    assert clb.progressCircle(status=0) == print('%s %s' % ('Loading', '|'))
     success += 1
 except: error += 1
 
