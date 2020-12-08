@@ -2,7 +2,7 @@
 
 ![pypi](https://shields.io/pypi/v/consloadingbar.svg)
 
-![demo](./progressbar.gif =100x20)
+<img src="progressbar.gif" alt="drawing" width="600"/>
 
 ### GitHub Page: [flamechain/ConsLoadingBar](https://github.com/flamechain/ConsLoadingBar)
 
