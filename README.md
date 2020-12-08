@@ -8,7 +8,7 @@
 
 ### Full Docs: [flamechain/ConsLoadingBar/Documentation.md](https://github.com/flamechain/ConsLoadingBar/blob/main/Documentation.md)
 
-Backwards Compatible Since 2.0.0
+Backwards Compatible Since: 3.0.0
 
 ## Import
 
@@ -26,9 +26,18 @@ You can use [demo.py](https://github.com/flamechain/ConsLoadingBar/blob/main/dem
 clb = consloadingbar.SimulateTasks()
 ```
 
+## Progress Indicators
+
+There are 4 indicators to choose from:
+
+- ``progressBar``
+- ``progressChar``
+- ``spinner``
+- ``counter``
+
 ## ProgressBar()
 
-### Bar() Params for ProgressBar
+### Global Params
 
 | Name | Description | Type | Default |
 |-|-|:-:|-|
@@ -40,12 +49,14 @@ clb = consloadingbar.SimulateTasks()
 | endPointChars | Suffix and prefix of the bar | list | ['&#124;', '&#124;'] |
 | title | Title to show when the bar is running | string | 'Running...' |
 | emptyBarChar | Character for the non-filled-in bar | string | ' ' |
+| maxValue | Max value the bar reaches | float | 100 |
+| maxValueLabel | Unit for the current value | string | '%' |
 
-### Params
+### Local Params
 
 | Name | Description | Type | Default |
 |-|-|:-:|-|
-| current | Current percentage complete | int | |
+| percentage | Current percentage complete | int | |
 | time_ | Current time passed since start, used for eta calculations | float | None |
 | tasksDone | How many tasks done to display | int | 0 |
 | lazyLoad | If used, only updates when needed, no tasks or eta displayed | int-bool | None |
@@ -86,52 +97,69 @@ clb.end()
         |████████████████████| <span style="color:green">100%  [tasks=10/10]</span>
 </pre>
 
-## ProgressCircle()
-
-### Bar() Params for ProgressCircle()
+## ProgressChar()
 
 | Name | Description | Type | Default |
 |-|-|:-:|-|
-| phases | The phases for the spinner | list | ['&#124;', '/', '-', '\\'] |
+| index | Index of phases to print | integer | |
+| phases | List of characters that the index calls from | list | [' ', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'] |
+| title | Title to show while running | string | 'Loading' |
 
-### Params
-
-| Name | Description | Type | Default |
-|-|-|:-:|-|
-| stop() | Call on main thread to end method | func-bool | False |
-| time_ | Call instead to make it stop itself after given seconds | float | None |
-| title | Title to show while running | string | 'Loading'
-| status | Call instead to print once showing the phases index of status | int | None |
-| char | Call instead to print a custom char not in phases | string | None |
-| returnString | Return a string value of the bar instead of printing to the console | boolean | False |
-
-This is used to show a spinner go round in a circle pattern. See demo above. To call just tell it when to stop using time, or stop() param.
-
-```python
-clb.progressCircle(time_=2) # Will run for 2 seconds
-```
-
-You can also use phases to change what to show each iteration. See Demo also.
-
-```python
-clb = consloadingbar.Bar(phases=['|', '-'])
-
-clb.progressCircle(time_=2)
-```
-
-This now only has 2 phases, '|' and '-'.
-
-You can also use the char param to manually put in what to display.
+This shows a character for progress. Like spinner but has a sense of completion.
 
 ```python
 clb = consloadingbar.Bar()
 
-for i in range(101):
-    # Do something. For demo purposes you can sleep the program for about 0.01 seconds.
-    clb.progressCircle(char=i)
+clb.progressChar(1) # Will run for 2 seconds
 ```
 
-This will count up to 100.
+```txt
+Loading ▁
+```
+
+## Spinner()
+
+| Name | Description | Type | Default |
+|-|-|:-:|-|
+| stop() | Used if on a seperate thread to call on main to stop | func-bool | False |
+| time_ | Instead you can hardcode how long it should take | float | None |
+| title | Title to display while running | string | 'Loading' |
+| phases | A list of values to loop through to display | list | ['|', '/', '-', '\\'] | False |
+| returnString | Used if you want to return the string value instead of print | boolean | False |
+
+As seen in the demo, you can do lots. Here are a couple examples that are shown in the demo:
+
+```python
+clb = consloadingbar.Bar()
+
+clb.spinner(time_=2)
+```
+
+```python
+clb.spinner(time_=4.7, phases='preset')
+```
+
+This last one uses a preset, and the preset takes about 4.7 seconds to complete once.
+
+## Counter()
+
+| Name | Description | Type | Default |
+|-|-|:-:|-|
+| totalTime | Total time for completion | float | |
+| start | Start number | float | |
+| end | End number | float | |
+| title | Title to display | string | 'Loading' |
+
+Here is how to count up and count down in 2 seconds each:
+
+```python
+clb = consloadingbar.Bar()
+
+clb.counter(2, start=0, end=100)
+clb.counter(2, start=100, end=0)
+```
+
+This will count up to 100, then back down to 0
 
 ___
 

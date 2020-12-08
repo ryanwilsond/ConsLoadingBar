@@ -21,7 +21,7 @@ try:
 except ValueError: success += 1
 
 try:
-    assert clb.progressCircle(time_=0) == print('Loading |')
+    assert clb.spinner(time_=0) == print('Loading |')
     success += 1
 except: error += 1
 
@@ -37,8 +37,19 @@ except: success += 1
 
 try:
     clb = consloadingbar.Bar()
-    assert clb.progressCircle(status=0) == print('%s %s' % ('Loading', '|'))
+    for i in range(101):
+        clb.progressChar(i)
+    assert clb.progressChar(100) == print('Loading █')
     success += 1
 except: error += 1
 
-print(success, error)
+try:
+    clb = consloadingbar.Bar()
+    clb.counter(0.01, 0, 100)
+    print()
+    clb.counter(0.01, 100, 0)
+    assert clb.counter(0.01, 100, 100) == print('Loading 100')
+    success += 1
+except: error += 1
+
+print(f"{success, error}")

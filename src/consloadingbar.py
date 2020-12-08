@@ -1,8 +1,8 @@
-# v2.0.4
+# v3.0.0
 import time, random, concurrent.futures, threading, termcolor, sys
 
 class Bar:
-    def __init__(self, barLength=20, useETACalculation=False, taskCount=None, mainBarChar='█', progressPointBarChar=None, endPointChars=['|', '|'], title='Running Tasks...\n', useColor=False, emptyBarChar=' ', phases=['|', '/', '-', '\\']):
+    def __init__(self, barLength=20, useETACalculation=False, taskCount=None, mainBarChar='█', progressPointBarChar=None, endPointChars=['|','|'], title='Running Tasks...\n', useColor=False, emptyBarChar=' ', maxValue=100, maxValueLabel='%'):
         '''
         ### Description
 
@@ -21,16 +21,17 @@ class Bar:
         | title | True | Title that shows up for the progress bar. Actaully gets prinited using the start() method. |
         | useColor | True | Color mode on or off, default to off. |
         | emptyBarChar | True | Usally a space, could be something else if you want a filling effect. |
-        | phases | True | What to show for the progressStack. |
+        | total | True | Total percent to get up too. Usefull if your dealing with non-percents. |
+        | totalLabel | True | Character following the total. |
 
         PyPi Link: https://pypi.org/project/ConsLoadingBar
 
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         error = ValueError(termcolor.colored('Check params and try again', 'red'))
-        okChars = ['|', ' ', '[', ']', '█', '▓', '▒', '░', '║', '#', '$', '^', '&', '*', '(', ')', '-', '+', '=',' !', '@', '{', '}', '/', '`', '~', '0', '.', '▢', '▣', '◯', '◉', '', '●']
+        okChars = ['|', ' ', '[', ']', '█', '▓', '▒', '░', '║', '#', '$', '^', '&', ':', ';', '*', '(', ')', '-', '+', '=', '', '!', '@', '{', '}', '/', '`', '~', '0', '.', '▢', '▣', '◯', '◉', '>', '<', '●']
         otherChars = ['\n', '\t']
-        listChars = ['|', '/', '-', '\\', '▢', '▣', '◯', '◉', '', ' ', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█', '◷', '◶', '◵', '◴', '◑', '◒', '◐', '◓', '○', '◔', '◑', '◕', '●', '⎺', '⎻', '⎼', '⎽', '⎼', '⎻', '⣾', '⣷', '⣯', '⣟', '⡿', '⢿', '⣻', '⣽']
+        
         try:
             if useColor:
                 self.green = 'green'
@@ -55,15 +56,9 @@ class Bar:
                 else:
                     raise error
 
-            for char in phases:
-                if char in listChars:
-                    pass
-                else:
-                    raise error
-            self.phases = list(phases)
-            self.title = title
-            self.total = 100
-            self.percChar = '%'
+            self.title = str(title)
+            self.total = float(maxValue)
+            self.totalChar = str(maxValueLabel)
             self.useETACalculation = bool(useETACalculation)
             if mainBarChar in okChars:
                 self.mainBarChar = mainBarChar
@@ -104,7 +99,7 @@ class Bar:
         else:
             print('%s%s%s%s   0%%  [tasks=0/%s]' % (title, self.endPointChars[0], ' ' * self.barLength, self.endPointChars[1], self.taskCount), end='\r')
 
-    def progressBar(self, current, time_=None, tasksDone=0, lazyLoad=None, returnString=False):
+    def progressBar(self, percentage, time_=None, tasksDone=0, lazyLoad=None, returnString=False):
         '''
         ### Description
 
@@ -114,7 +109,7 @@ class Bar:
 
         | Name | Optional | Description |
         |-|:-:|-|
-        | current | False | Current percentage that the bar has completed. |
+        | percentage | False | Current percentage that the bar has completed. |
         | time_ | True | How long its taken so far. Used for calculating eta. |
         | tasksDone | True | Amount of tasks done, just for visualization. |
         | lazyLoad | True | Used if you don't have threading, but want a nice animation to get to current percent. |
@@ -125,7 +120,7 @@ class Bar:
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
         # Generates Bar Format
-        percent = float(current) * 100 / self.total
+        percent = float(percentage) * 100 / self.total
         bar = self.mainBarChar * int(percent/100 * self.barLength - 1)
         if len(bar) != 0:
             bar = bar + self.progressPointBarChar
@@ -134,7 +129,7 @@ class Bar:
 
         # Creates an eta (if possible)
         try:
-            eta = str(round((time_ * (100/current)) - time_, 2))
+            eta = str(round((time_ * (100/percentage)) - time_, 2))
             eta, et2 = eta.split('.')
             et3 = '00'
 
@@ -168,7 +163,7 @@ class Bar:
             string_ = None
             while len(bar) > lazyLoad:
                 string_ = '%s %s%s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], self.mainBarChar * temp2, termcolor.colored(self.mainBarChar * temp1, self.green),
-                (spaces + (self.emptyBarChar * (len(bar)-lazyLoad-1))), self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount)
+                (spaces + (self.emptyBarChar * (len(bar)-lazyLoad-1))), self.endPointChars[1], space, percent, self.totalChar, eta, tasksDone, self.taskCount)
                 if returnString == False:
                     print(string_, end='\r')
                 lazyLoad += 1
@@ -185,14 +180,18 @@ class Bar:
 
         # Prints all values it has
         else:
+            if percentage == self.total:
+                green = self.green
+            else:
+                green = 'white'
             if (time_ == None) & (self.taskCount == None):
-                string_ = '%s %s%s%s%s %s%d%s' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar)
+                string_ = '%s %s%s%s%s %s%s%s' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, termcolor.colored(percent, green), termcolor.colored(self.totalChar, green))
             elif (time_ == None) & (self.taskCount != None):
-                string_ = '%s %s%s%s%s %s%d%s  [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, tasksDone, self.taskCount)
+                string_ = '%s %s%s%s%s %s%s%s  [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, termcolor.colored(percent, green), termcolor.colored(self.totalChar, green), termcolor.colored(tasksDone, green), termcolor.colored(self.taskCount, green))
             elif (time != None) & (self.taskCount == None):
-                string_ = '%s %s%s%s%s %s%d%s  [eta=%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta)
+                string_ = '%s %s%s%s%s %s%s%s  [eta=%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, termcolor.colored(percent, green), termcolor.colored(self.totalChar, green), eta)
             elif (time != None) & (self.taskCount != None):
-                string_ = '%s %s%s%s%s %s%d%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, percent, self.percChar, eta, tasksDone, self.taskCount)
+                string_ = '%s %s%s%s%s %s%s%s  [eta=%s] [tasks=%s/%s]' % (title, self.endPointChars[0], bar, spaces, self.endPointChars[1], space, termcolor.colored(percent, green), termcolor.colored(self.totalChar, green), eta, termcolor.colored(tasksDone, green), termcolor.colored(self.taskCount, green))
             if returnString == False:
                 print(string_, end='\r')
 
@@ -203,15 +202,15 @@ class Bar:
                 eta2_ = float(eta2_) + 60
 
             if self.useETACalculation: # Used if enabled
-                if (eta2_ == 0) | (self.total-current == 0):
+                if (eta2_ == 0) | (self.total-percentage == 0):
                     time.sleep(0.01)
                 else:
-                    time.sleep((float(eta2_)/(self.total-current)))
+                    time.sleep((float(eta2_)/(self.total-percentage)))
             
             if returnString == True:
                 return string_
     
-    def progressCircle(self, stop=False, time_=None, title='Loading', status=None, char=None, returnString=False):
+    def spinner(self, stop=False, time_=None, title='Loading', phases=['|', '/', '-', '\\'], returnString=False):
         '''
         ### Description
 
@@ -224,58 +223,55 @@ class Bar:
         | time_ | True | If used runs until time runs out. |
         | title | True | Prints what the bar should print |
         | stop | True | Used with threading rather than waiting time. |
+        | phases | True | Spinner phases. |
+        | returnString | True | Return as string instead of printing. |
 
         PyPi Link: https://pypi.org/project/ConsLoadingBar
 
         Github Link: https://github.com/flamechain/ConsLoadingBar
         '''
-        def func(stop=False):  
+        listChars = ['|', '/', '-', '\\', '▢', '▣', '◯', '◉','', ' ', '◷', '◶', '◵', '◴', '◑', '◒', '◐', '◓', '⎺', '⎻', '⎼', '⎽', '⎼', '⎻', '⣾', '⣷', '⣯', '⣟', '⡿', '⢿', '⣻', '⣽']
+        preset = ('⠁ |⠉ |⠉⠁|⠈⠉| ⠙| ⠸| ⢰| ⣠|⢀⣀|⣀⡀|⣄ |⡆ |⠇ |⠃ |'
+               '⠁ |⠉ |⠉⠁|⠈⠉| ⠙| ⠸| ⢰| ⣠|⢀⣀|⣀⡀|⣄ |⡆ |⠇ |⠃ |'
+               '⠁ |⠉ |⠈⠁|⠈⠑|⠈⠱|⠈⡱|⢈⡱|⢌⡱|⢎⡱|⢎⡱|⢎⡱|'
+               '⢆⡱|⢆⡰|⢆⡠|⢆⡀|⢆ |⠆ |⠂ |  ').split('|')
+        
+        if phases == 'preset':
+            phases = preset
+        else:
+            for char in phases:
+                if (char in listChars) or (char in preset):
+                    pass
+                else:
+                    raise ValueError(termcolor.colored('Check params and try again.', 'red'))
+            phases = list(phases)
+        def func(stop):  
             j = 0
             while True:
                 if stop():
                     break
 
-                print('%s %s' % (title, self.phases[j]), end='\r')
+                print('%s %s' % (title, phases[j]), end='\r')
 
                 j += 1
-                if j == len(self.phases):
+                if j == len(phases):
                     j = 0
 
-                time.sleep(0.2)
+                time.sleep(0.1)
 
-        if char != None:
-            if '\n' in title:
-                string_ = '\033[F%s%s\t' % (title, char)
-            else:
-                string_ = '%s %s\t' % (title, char)
-            if returnString == True:
-                return string_
-            else:
-                print(string_, end='\r')
-
-        elif status != None:
-            if '\n' in title:
-                string_ = '\033[F%s%s' % (title, self.phases[status])
-            else:
-                string_ = '%s %s' % (title, self.phases[status])
-            if returnString == True:
-                return string_
-            else:
-                print(string_, end='\r')
-
-        elif time_ == None:
+        if time_ == None:
             j = 0
             while True:
                 if stop():
                     break
 
-                print('%s %s' % (title, self.phases[j]), end='\r')
+                print('%s %s' % (title, phases[j]), end='\r')
 
                 j += 1
                 if j == 4:
                     j = 1
 
-                time.sleep(0.2)
+                time.sleep(0.1)
 
         elif time_ != None:
             stop_threads = False
@@ -285,6 +281,70 @@ class Bar:
                 stop_threads = True
             
         else: return ValueError('Something Went Wrong. Try Again.', self.red)
+    
+    def counter(self, totalTime, start=0, end=100, title='Loading'):
+        '''
+        ### Description
+
+        Counts up or down.
+
+        ### Params
+
+        | Name | Optional | Description |
+        |-|:-:|-|
+        | totalTime | False | Total time it will take to complete. |
+        | title | True | Title that prints when the progress bar is done. |
+        | start & end | True | Start and end points. |
+
+        PyPi Link: https://pypi.org/project/ConsLoadingBar
+
+        Github Link: https://github.com/flamechain/ConsLoadingBar
+        '''
+        i = start
+        if start < end:
+            while i <= end:
+                print('%s %s' % (title, i), end='\r')
+                i += 1
+                time.sleep(totalTime / (end-start))
+        
+        elif end < start:
+            while i >= end:
+                print('%s %s%s' % (title, i, " " * len(str(start))), end='\r')
+                i -= 1
+                time.sleep(totalTime / (start-end))
+            
+        elif end == start:
+            print('%s %s' % (title, end), end='\r')
+    
+    def progressChar(self, percentage, phases=[' ', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'], title='Loading'):
+        '''
+        ### Description
+
+        Shows index of list, different because it has sense of progress.
+
+        ### Params
+
+        | Name | Optional | Description |
+        |-|:-:|-|
+        | percentage | False | Percent of completion. |
+        | title | True | Title that shows while running. |
+        | phases | True | Progress points. |
+
+        PyPi Link: https://pypi.org/project/ConsLoadingBar
+
+        Github Link: https://github.com/flamechain/ConsLoadingBar
+        '''
+        listChars = [' ', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█']
+        preset = ['○', '◔', '◑', '◕', '●']
+        if phases == 'preset':
+            phases = preset
+        else:
+            for char in phases:
+                if (char in listChars) or (char in preset):
+                    pass
+                else:
+                    raise ValueError(termcolor.colored('Check params and try again.', 'red'))
+        print('%s %s' % (title, phases[round((len(phases)-1) * (percentage / 100))]), end='\r')
 
     def end(self, tasks=None, title='Finished\n'):
         '''
@@ -323,10 +383,10 @@ class Bar:
             temp = '\t'
         if total_tasks == None:
             print(f'{temp}{self.endPointChars[0]}{bar}{self.endPointChars[1]}', end='')
-            print(termcolor.colored(' 100' + self.percChar, self.green) + '\t\t')
+            print(termcolor.colored(' 100' + self.totalChar, self.green) + '\t\t')
         else:
             print(f'{temp}{self.endPointChars[0]}{bar}{self.endPointChars[1]}', end='')
-            print(termcolor.colored(' 100' + self.percChar + f'  [tasks={total_tasks}/{total_tasks}]', self.green) + '\t\t')
+            print(termcolor.colored(' 100' + self.totalChar + f'  [tasks={total_tasks}/{total_tasks}]', self.green) + '\t\t')
 
 class SimulateTasks:
     def __init__(self, estimatedTotalTime=15, barLength=20, *args, **kwargs):
@@ -342,7 +402,7 @@ class SimulateTasks:
         | estimatedTotalTime | True | Bar() eta param, used for average time. |
         | barLength | True | Length of the bar in characters. |
         | *args | True | If you want to use external task values for unit testing. |
-        | **kwargs | True | Used if you want to specify a list like args=[] |
+        | **kwargs | True | Used if you want to specify a list like args=[]. |
 
         PyPi Link: https://pypi.org/project/ConsLoadingBar
 
@@ -370,20 +430,20 @@ class SimulateTasks:
                 print(termcolor.colored('The Program will continue but there may be errors.', 'red'), end='\n\n')
                 time.sleep(2)
                 lb = Bar(self.barLength)
-                lb.progressCircle(time_=2)
+                lb.progressSpinner(time_=2)
         else:
             stop_threads = False
             lb = Bar(self.barLength)
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(self.loadtasks)
                 if self.estimatedTotalTime > 5:
-                    future2 = executor.submit(lb.progressCircle, lambda: stop_threads)
+                    future2 = executor.submit(lb.progressSpinner, lambda: stop_threads)
                 tasks = future.result()
                 stop_threads = True
 
         start_time = time.time()
         lb = Bar(self.barLength, taskCount=len(tasks), useETACalculation=True, useColor=True)
-        current = 0
+        percentage = 0
 
         def runprogress(perc, done, stop):
             i = perc

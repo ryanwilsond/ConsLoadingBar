@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name="ConsLoadingBar",
-    version="2.0.4",
+    version="3.0.0",
     author="flamechain",
     author_email="rwc+modules@thezulus.com",
     description="Easy to make progress bars",

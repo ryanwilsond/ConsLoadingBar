@@ -8,13 +8,11 @@ Github Link: [flamechain/Modules/](https://github.com/flamechain/ConsLoadingBar)
 
 PyPi Link: [project/ConsLoadingBar](https://pypi.org/project/ConsLoadingBar)
 
-PyDigger Link: [pypi/ConsLoadingBar](https://pydigger.com/pypi/ConsLoadingBar)
-
 ![pypi](https://shields.io/pypi/v/consloadingbar.svg)
 
 Description: A module to make easy progress bars with lots of customizability and a built-in demo class to show whats possible.
 
-Backwards Compatible Since 2.0.0
+Backwards Compatible Since: 3.0.0
 
 ___
 
@@ -33,13 +31,16 @@ ___
   - [3.8 EndPointChars](#38-endpointchars)
   - [3.9 Title](#39-title)
   - [3.10 UseColor](#310-useColor)
-  - [3.11 emptyBarChar](#311-emptybarchar)
-  - [3.12 phases](#312-phases)
+  - [3.11 EmptyBarChar](#311-emptybarchar)
+  - [3.12 MaxValue](#312-maxvalue)
+  - [3.13 MaxValueLabel](#313-maxvaluelabel)
 - [4.0 Using](#40-using)
   - [4.1 ProgressBar()](#41-progressbar)
   - [4.2 Start()](#42-start)
   - [4.3 End()](#43-end)
-  - [4.4 ProgressCircle()](#44-progresscircle)
+  - [4.4 Spinner()](#44-spinner)
+  - [4.5 Counter()](#45-counter)
+  - [4.6 ProgressChar()](#46-progresschar)
 - [5.0 ConsLoadingBar.SimulateTasks()](#50-consloadingbarsimulatetasks)
   - [5.1 Parameters (SimulateTasks)](#51-parameters-simulatetasks)
   - [5.2 Example](#52-example)
@@ -88,7 +89,8 @@ ___
 | title | What the title is for the progress bar while running. | string | 'Running Tasks...' |
 | useColor | If you want to have some color in on the bar. | boolean | False |
 | emptyBarChar | Used for the other part of the bar that has not been reached. | string | ' ' |
-| phases | Phases for the progressCircle() method. | list | ['&#124;', '/', '-', '\\'] |
+| maxValue | Max value for progressBar() to reach. | float | 100 |
+| maxValueLabel | Label or Unit for the max value. | string | '%' |
 
 ### 3.2 Description
 
@@ -162,7 +164,7 @@ This is a list with the bounds of the bar. The default is the pipe, but with any
 [####################] 100%
 ```
 
-## 3.9 title
+### 3.9 title
 
 Title for the progress bar while running. The default is 'Running Tasks...', but it could be anything.
 
@@ -171,7 +173,7 @@ Running Tasks...
         |██████████          |  50%
 ```
 
-## 3.10 useColor
+### 3.10 useColor
 
 Boolian used if you want to have some color. Currently color param only applies to the base class, not the [SimulateTasks()](#50-consloadingbarsimulatetasks) class, hence an error message on [SimulateTasks()](#50-consloadingbarsimulatetasks) is always red. Default to off because its purely visual and personal preference. This color appears when the [end()](#43-end) method is called:
 
@@ -182,7 +184,7 @@ Boolian used if you want to have some color. Currently color param only applies 
 
 And also when the lazyLoad progress bar is being updated, the knew progress is green until its to the right point.
 
-## 3.11 emptyBarChar
+### 3.11 emptyBarChar
 
 The empty character for the bar:
 
@@ -198,14 +200,29 @@ Possible:
 |◉◉◉◉◉◉◉◉◉◉◯◯◯◯◯◯◯◯◯◯|  50%
 ```
 
-## 3.12 phases
+### 3.12 maxValue
 
-Used for progressStack() phases. Default is a stack, but you could make it a circle.
+Used for progressBar(), and it is the max value. Noramally 100, but it could be something else for a game bar or something like that.
 
-Default of phase 4:
+```python
+clb = consloadingbar.Bar(maxValue=50):
+```
 
 ```txt
-Loading ▄
+|████████████████████| 50%
+```
+
+### 3.13 maxValueLabel
+
+Used well with maxValue:
+
+```python
+clb = consloadingbar.Bar(maxValue=20, maxValueLabel=' Health')
+clb.progress(10)
+```
+
+```txt
+|██████████          | 10 Health
 ```
 
 ___
@@ -219,8 +236,8 @@ For this you can call the class like mentioned above, and then use the progress 
 ```python
 import consloadingbar
 
-lb = consloadingbar.Bar()
-lb.progressBar(100)
+clb = consloadingbar.Bar()
+clb.progressBar(100)
 ```
 
 ```txt
@@ -230,11 +247,11 @@ lb.progressBar(100)
 You can also add tasks to the bar by adding thath parameter to the [Bar()](#30-consloadingbarbar), and then telling the progress method how many tasks are done.
 
 ```python
-lb = consloadingbar.Bar(taskCount=10)
+clb = consloadingbar.Bar(taskCount=10)
 
 for i in range(11):
     percent = i * 10
-    lb.progressBar(percent, tasksDone=i)
+    clb.progressBar(percent, tasksDone=i)
 ```
 
 In this example, every iteration the bar's completion goes up by 10%, and 1 task finishes. Here is the result of the bar after completion.
@@ -249,14 +266,14 @@ To use the eta, just specify how long its been since starting. The eta gets auto
 ```python
 import consloadingbar, time
 
-lb = consloadingbar.Bar(taskCount=10)
+clb = consloadingbar.Bar(taskCount=10)
 startTime = time.time()
 
 for i in range(11):
     percent = i * 10
     currentTime = time.time() - startTime
 
-    lb.progressBar(percent, time_=currentTime, tasksDone=i)
+    clb.progressBar(percent, time_=currentTime, tasksDone=i)
 
     time.sleep(0.1)
 ```
@@ -283,9 +300,9 @@ Running...
 What this does is it just prints the consloadingbar with all values maxed out, and eta gone (if there was one).
 
 ```python
-lb = consloadingbar.Bar(taskCount=5)
+clb = consloadingbar.Bar(taskCount=5)
 
-lb.end()
+clb.end()
 ```
 
 ```txt
@@ -293,12 +310,12 @@ Finished
         |████████████████████| 100%  [tasks=5/5]
 ```
 
-### 4.4 progressCircle()
+### 4.4 spinner()
 
 This was made to replace the old start() method. This shows a title, and a spinning circle that either goes until stopped using threading, or stops after a specified time.
 
 ```python
-lb.progressCircle(time_=2)
+clb.spinner(time_=2)
 ```
 
 ```txt
@@ -308,6 +325,29 @@ Loading /
 This simple code example will run this spinning circle loading indicator for 2 seconds, then it stops itself. Read more on threading it externally [here](#72-concurrentfutures).
 
 You can also use ``returnString=True`` to get the output as a string instead of a print statement.
+
+### 4.5 counter()
+
+This counts up or down. This example will go up to 100, then back down to 0:
+
+```python
+clb = consloadingbar.Bar()
+
+clb.counter(2, start=0, end=100)
+clb.counter(2, start=100, end=0)
+```
+
+### 4.6 progressChar()
+
+Used like spinner(), but has sense of completion.
+
+```python
+for i in range(101):
+    clb.progressChar(percentage=i, title='ProgressChar 1')
+    time.sleep(0.01)
+```
+
+Percentage is the percentage complete.
 
 ___
 
@@ -358,7 +398,7 @@ This is a parameter to the progress method. All of progress's methods will we li
 
 | Param Name | Description | Optional | Default |
 |-|-|:-:|-|
-| current | __Current percentage__ you want the bar to show. | False |
+| percentage | __Current percentage__ you want the bar to show. | False |
 | time_ | How long has __elapsed since the start__ of the bar. Used for eta. | True | None |
 | tasksDone | How many __tasks are complete__. Used for visualization | True | 0 |
 | lazyLoad | Used for dynamic animation. | True | None |
@@ -422,7 +462,7 @@ This example would create a custom task list with 50%, 30%, and 20%. You can sti
 This is enabled when threading with real tasks. It uses prior data to estimate how long the rest will take. Not always accurate. This is by default turned off, but is turned on in [SimulateTasks()](#50-consloadingbarsimulatetasks). It just enables this code in the main class:
 
 ```python
-time.sleep((float(eta) / (100-current)))
+time.sleep((float(eta) / (100-percentage)))
 ```
 
 ___
@@ -661,16 +701,18 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
-| 2.0.4 | Added returnString param to [progressBar()](#41-progressbar) and [progressCircle()](#44-progresscircle) to return string instead of print | 12/06/20 |
+| 3.0.0 | Changed naming for the last time (hopefully) and added 2 new methods, and changed progressCircle to [spinner()](#44-spinner)
+| 2.0.5 | Fixed bug | 12/07/20 |
+| 2.0.4 | Added returnString param to [progressBar()](#41-progressbar) and [progressCircle()](#44-spinner) to return string instead of print | 12/06/20 |
 | 2.0.3 | Unstable | 12/06/20 |
 | 2.0.2 | Changed README and fixed bug | 12/06/20 |
 | 2.0.1 | Added links to README, removed old section | 12/06/20 |
 | 2.0.0 | Added new params and customability! Also moved major documentation into speperate docs, and replaced README with a gif and quick start guide, and changed version numbering system | 12/06/20 |
 | 1.3.1 | Major patch update. [Fixed many bugs](#90-known-issues) | 12/03/20 |
-| 1.3.0 | Final version of [progressCircle()](#44-progresscircle) method | 12/03/20 |
+| 1.3.0 | Final version of [progressCircle()](#44-spinner) method | 12/03/20 |
 | 1.2.9 | [SimulateTasks()](#50-consloadingbarsimulatetasks) would run when initilizing Bar() | 12/03/20 |
 | 1.2.8 | Bug fixes | 12/03/20 |
-| 1.2.7 | Replaced [start()](#42-start) method with [progressCircle()](#44-progresscircle) to allow for more customization, [start()](#42-start) method is now like the [end()](#43-end) method for the beginning; Also added more title customization including placement | 12/03/20 |
+| 1.2.7 | Replaced [start()](#42-start) method with [progressCircle()](#44-spinner) to allow for more customization, [start()](#42-start) method is now like the [end()](#43-end) method for the beginning; Also added more title customization including placement | 12/03/20 |
 | 1.2.6 | Added email and website to [pypi page](https://pypi.org/project/ConsLoadingBar) | 12/03/20 |
 | 1.2.5 | Setup tokens so updates are easier and more frequent | 12/02/20 |
 | 1.2.4 | Tweaks to documentation for more clarity | 12/02/20 |
