@@ -1,4 +1,4 @@
-# v3.0.0
+# v3.0.1
 import time, random, concurrent.futures, threading, termcolor, sys
 
 class Bar:
@@ -121,6 +121,8 @@ class Bar:
         '''
         # Generates Bar Format
         percent = float(percentage) * 100 / self.total
+        if percent == round(percent):
+            percent = round(percent)
         bar = self.mainBarChar * int(percent/100 * self.barLength - 1)
         if len(bar) != 0:
             bar = bar + self.progressPointBarChar

@@ -665,8 +665,10 @@ ___
 
 > Note: This bug log only contains bugs going back to version 1.1.6
 
-| Version | Bug ID | Description | Status | Fix Date |
-|-|-|-|:-:|:-:|
+| Version Found | Bug ID | Description | Status | Fix Date |
+|:-:|:-:|-|:-:|:-:|
+| 3.0.0 | 017 | Percentage would show as float even when only dealing with whole numbers | Fixed | 12/08/20 |
+| 2.0.4 | 016 | ':' and ';' weren't allows in titles, even though they should have | Fixed | 12/07/20 |
 | 2.0.1 | 015 | ProgressCircle() printed raw string, not formatted | Fixed | 12/06/20 |
 | 1.3.0 | 014 | Title doesn't have 1 space padding | Fixed | 12/04/20 |
 | 1.3.0 | 013 | Only 1 block character is in allowedChars | Fixed | 12/04/20 |
@@ -691,7 +693,7 @@ ___
 
 | Version | Planned Changes |
 |-|:-:|
-| 3.0.0 | Ability to have multiple threads run at the same time internally, and externally |
+| 4.0.0 | Ability to have multiple threads run at the same time internally, and externally |
 
 ___
 
@@ -701,8 +703,9 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
-| 3.0.0 | Changed naming for the last time (hopefully) and added 2 new methods, and changed progressCircle to [spinner()](#44-spinner)
-| 2.0.5 | Fixed bug | 12/07/20 |
+| 3.0.1 | [Fixed bug](#90-known-issues) | 12/08/20 |
+| 3.0.0 | Changed naming for the last time (hopefully) and added 2 new methods, and changed progressCircle to [spinner()](#44-spinner) | 12/07/20 |
+| 2.0.5 | [Fixed bug](#90-known-issues) | 12/07/20 |
 | 2.0.4 | Added returnString param to [progressBar()](#41-progressbar) and [progressCircle()](#44-spinner) to return string instead of print | 12/06/20 |
 | 2.0.3 | Unstable | 12/06/20 |
 | 2.0.2 | Changed README and fixed bug | 12/06/20 |

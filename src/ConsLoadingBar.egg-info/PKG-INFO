@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: ConsLoadingBar
-Version: 3.0.0
+Version: 3.0.1
 Summary: Easy to make progress bars
 Home-page: https://github.com/flamechain/ConsLoadingBar
 Author: flamechain
@@ -13,7 +13,7 @@ Description: # Progress Indicators for Python
         
         ![pypi](https://shields.io/pypi/v/consloadingbar.svg)
         
-        ## ![demo](./progressbar.gif)
+        ## <img src="progressbar.gif" alt="drawing" width="600"/>
         
         ### GitHub Page: [flamechain/ConsLoadingBar](https://github.com/flamechain/ConsLoadingBar)
         

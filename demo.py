@@ -1,7 +1,7 @@
 import consloadingbar, time
 
 time.sleep(0.1)
-print()
+print(end='\r')
 clb = consloadingbar.Bar(title='ProgressBar 1', taskCount=10, useColor=True)
 
 for i in range(101):
