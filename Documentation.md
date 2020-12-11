@@ -667,6 +667,7 @@ ___
 
 | Version Found | Bug ID | Description | Status | Fix Date |
 |:-:|:-:|-|:-:|:-:|
+| 3.0.1 | 018 | Doesn't work with other terminals including CMD and PowerShell | Not Fixed | |
 | 3.0.0 | 017 | Percentage would show as float even when only dealing with whole numbers | Fixed | 12/08/20 |
 | 2.0.4 | 016 | ':' and ';' weren't allows in titles, even though they should have | Fixed | 12/07/20 |
 | 2.0.1 | 015 | ProgressCircle() printed raw string, not formatted | Fixed | 12/06/20 |
@@ -703,7 +704,8 @@ ___
 
 | Version | New Changes | Release Date |
 |-|-|:-:|
-| 3.0.1 | [Fixed bug](#90-known-issues) | 12/08/20 |
+| 3.0.2 | New demo.gif for README | |
+| 3.0.1 | [Fixed bug 017](#90-known-issues) | 12/08/20 |
 | 3.0.0 | Changed naming for the last time (hopefully) and added 2 new methods, and changed progressCircle to [spinner()](#44-spinner) | 12/07/20 |
 | 2.0.5 | [Fixed bug](#90-known-issues) | 12/07/20 |
 | 2.0.4 | Added returnString param to [progressBar()](#41-progressbar) and [progressCircle()](#44-spinner) to return string instead of print | 12/06/20 |

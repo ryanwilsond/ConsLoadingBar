@@ -2,13 +2,15 @@
 
 ![pypi](https://shields.io/pypi/v/consloadingbar.svg)
 
-## <img src="progressbar.gif" alt="drawing" width="600"/>
+<img src="demo.gif" alt="demo" width="600"/>
 
 ### GitHub Page: [flamechain/ConsLoadingBar](https://github.com/flamechain/ConsLoadingBar)
 
 ### Full Docs: [flamechain/ConsLoadingBar/Documentation.md](https://github.com/flamechain/ConsLoadingBar/blob/main/Documentation.md)
 
-Backwards Compatible Since: 3.0.0
+Backwards Compatible Since 3.0.0
+
+> ### Note: Please report bugs, give feedback, and make suggestions on my github page
 
 ## Import
 
